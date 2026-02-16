@@ -1,0 +1,22 @@
+{
+  "3qws87mjz56gJdlXSgO51v": {
+    "name": "M_Drinking Fountain - Rectangular - Wall Mounted:Standard:Standard:1085411",
+    "type": "IfcFlowTerminal",
+    "category": "walls"
+  },
+  "0QdfrbOoD8IhucFCR0UnXb": {
+    "name": "M_Drinking Fountain - Rectangular - Wall Mounted:Standard:Standard:1085990",
+    "type": "IfcFlowTerminal",
+    "category": "walls"
+  },
+  "283DPC8Zj5$9YSiOYKX4Il": {
+    "name": "M_Drinking Fountain - Rectangular - Wall Mounted:Standard:Standard:1086140",
+    "type": "IfcFlowTerminal",
+    "category": "walls"
+  },
+  "283DPC8Zj5$9YSiOYKX4ME": {
+    "name": "M_Drinking Fountain - Rectangular - Wall Mounted:Standard:Standard:1086365",
+    "type": "IfcFlowTerminal",
+    "category": "walls"
+  }
+}

@@ -1,0 +1,45 @@
+.clash-report {
+    position: fixed;
+    top: 120px;
+    right: 40px;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    min-width: 200px;
+    z-index: 50;
+}
+
+.clash-title {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.clash-categories {
+    display: flex;
+    gap: 8px;
+}
+
+.clash-category {
+    padding: 8px 16px;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.clash-category:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.clash-category.active {
+    background: #3b82f6;
+    color: white;
+}

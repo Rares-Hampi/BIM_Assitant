@@ -1,0 +1,36 @@
+{
+  "units": "[#15=IfcSIUnit(*,.LENGTHUNIT.,$,.METRE.), #16=IfcSIUnit(*,.AREAUNIT.,$,.SQUARE_METRE.), #17=IfcSIUnit(*,.VOLUMEUNIT.,$,.CUBIC_METRE.), #21=IfcConversionBasedUnit(#19,.PLANEANGLEUNIT.,'DEGREE',#20), #22=IfcSIUnit(*,.TIMEUNIT.,$,.SECOND.)]",
+  "site_transform": "[[1. 0. 0. 0.]\n [0. 1. 0. 0.]\n [0. 0. 1. 0.]\n [0. 0. 0. 1.]]",
+  "failures": [
+    [
+      "1VB9G8xuL3MArqCPnBKZuJ",
+      "IfcBuilding",
+      "Representation is NULL"
+    ],
+    [
+      "1VB9G8xuL3MArqCPoqhS3L",
+      "IfcBuildingStorey",
+      "Representation is NULL"
+    ],
+    [
+      "1VB9G8xuL3MArqCPoqhSDK",
+      "IfcBuildingStorey",
+      "Representation is NULL"
+    ],
+    [
+      "1VB9G8xuL3MArqCPoqfRKT",
+      "IfcBuildingStorey",
+      "Representation is NULL"
+    ],
+    [
+      "1VB9G8xuL3MArqCPoqfRJ7",
+      "IfcBuildingStorey",
+      "Representation is NULL"
+    ],
+    [
+      "1VB9G8xuL3MArqCPnBKZuG",
+      "IfcSite",
+      "Representation is NULL"
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "1VB9G8xuL3MArqCPoqfRKT": {
+    "name": "TOF Footing",
+    "type": "IfcBuildingStorey",
+    "category": "slabs"
+  },
+  "1VB9G8xuL3MArqCPoqfRJ7": {
+    "name": "Roof - Main",
+    "type": "IfcBuildingStorey",
+    "category": "slabs"
+  }
+}

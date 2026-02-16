@@ -1,0 +1,109 @@
+import bpy
+import sys
+import os
+import time
+
+def enable_blenderbim():
+    """Încearcă să activeze add-on-ul BlenderBIM."""
+    try:
+        print("--- Verificare și activare BlenderBIM ---", file=sys.stderr)
+        
+        addon_prefs = bpy.context.preferences.addons
+        
+        if "blenderbim" in addon_prefs:
+            # Add-on-ul este instalat, verificăm dacă e activat
+            if not addon_prefs["blenderbim"].is_enabled:
+                print("Add-on-ul este instalat, dar dezactivat. Se activează...", file=sys.stderr)
+                bpy.ops.preferences.addon_enable(module="blenderbim")
+            else:
+                print("Add-on-ul BlenderBIM este deja instalat și activat.", file=sys.stderr)
+        else:
+            # Acest caz nu ar trebui să se întâmple dacă Dockerfile-ul e corect
+            print("Eroare CRITICĂ: Add-on-ul 'blenderbim' nu este nici măcar instalat!", file=sys.stderr)
+            return False
+
+        # Salvăm preferințele pentru a fi siguri
+        bpy.ops.wm.save_userpref() 
+        print("--- Activare BlenderBIM finalizată cu succes ---", file=sys.stderr)
+        return True
+        
+    except Exception as e:
+        print(f"Eroare CRITICĂ în timpul activării BlenderBIM: {e}", file=sys.stderr)
+        return False
+
+def convert_ifc_to_glb(ifc_path, glb_path):
+    """
+    Script Python pentru a fi rulat de Blender în modul background.
+    Acesta importă un fișier .IFC și îl exportă ca .GLB cu compresie Draco.
+    """
+    
+    print(f"--- Început procesare Blender ---", file=sys.stderr)
+    start_time = time.time()
+    
+    try:
+        # --- PAS NOU: Activarea Add-on-ului ---
+        if not enable_blenderbim():
+            # Dacă activarea eșuează, nu putem continua
+            return False
+
+        # --- Curățarea Scenei ---
+        if bpy.ops.object.select_all.poll():
+            bpy.ops.object.select_all(action='SELECT')
+        if bpy.ops.object.delete.poll():
+            bpy.ops.object.delete(use_global=False)
+        print(f"Scena a fost curățată.", file=sys.stderr)
+        
+        # --- Importarea IFC ---
+        if hasattr(bpy.ops.import_scene, 'ifc'):
+            print(f"Importare {ifc_path} folosind importatorul BlenderBIM...", file=sys.stderr)
+            bpy.ops.import_scene.ifc(filepath=ifc_path)
+        else:
+            print("Eroare: Importatorul IFC (BlenderBIM) tot nu a fost găsit, chiar și după activare.", file=sys.stderr)
+            return False
+            
+        print(f"Fișier IFC importat cu succes.", file=sys.stderr)
+        
+        # --- Exportarea GLB ---
+        os.makedirs(os.path.dirname(glb_path), exist_ok=True)
+        
+        print(f"Exportare ca {glb_path} cu compresie Draco...", file=sys.stderr)
+        bpy.ops.export_scene.gltf(
+            filepath=glb_path,
+            export_format='GLB',
+            export_draco_mesh_compression_enable=True,
+            export_draco_mesh_compression_level=6,
+            export_materials='EXPORT',
+            export_apply=True
+        )
+        
+        print(f"Exportare finalizată.", file=sys.stderr)
+        
+    except Exception as e:
+        print(f"Eroare în timpul procesării Blender: {e}", file=sys.stderr)
+        return False
+        
+    end_time = time.time()
+    print(f"--- Procesare Blender finalizată în {end_time - start_time:.2f} secunde ---", file=sys.stderr)
+    return True
+
+if __name__ == "__main__":
+    try:
+        args = sys.argv[sys.argv.index("--") + 1:]
+    except ValueError:
+        args = []
+
+    if len(args) != 2:
+        print("Utilizare: blender --background --python convert_script.py -- <cale_input_ifc> <cale_output_glb>", file=sys.stderr)
+        sys.exit(1)
+        
+    input_file = args[0]
+    output_file = args[1]
+    
+    if not os.path.exists(input_file):
+        print(f"Eroare: Fișierul de intrare nu există: {input_file}", file=sys.stderr)
+        sys.exit(1)
+
+    if not convert_ifc_to_glb(input_file, output_file):
+        sys.exit(1)
+        
+    sys.exit(0)

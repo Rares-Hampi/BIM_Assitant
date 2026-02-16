@@ -1,0 +1,1332 @@
+{
+  "3aS26xLUH6pg5G3T_gyyYA": {
+    "name": "M_Transformer Switchboard:914mmx673mm:MS1:860947",
+    "type": "IfcEnergyConversionDevice",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$Yi74": {
+    "name": "M_Transformer Switchboard:914mmx673mm:MS2:861040",
+    "type": "IfcEnergyConversionDevice",
+    "category": "electrical"
+  },
+  "1uMML$cxH6u8Lh2wxbD0e8": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:795878",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FGGKr9E19BvyMqqUqhCbu": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:795927",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FGGKr9E19BvyMqqUqhChJ": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:796348",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FGGKr9E19BvyMqqUqhCLN": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:796984",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FGGKr9E19BvyMqqUqhC0u": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:797783",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0KdYUMbf9698C$hTLVJ9xX": {
+    "name": "M_Lighting Switches:Three Way:Three Way:798387",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0YIMYffWP7i9skNaemGPfI": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:798440",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0YIMYffWP7i9skNaemGOJ5": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:798847",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0YIMYffWP7i9skNaemGOHJ": {
+    "name": "M_Lighting Switches:Three Way:Three Way:798953",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Mfg": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:799439",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Mkz": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:799512",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Mlr": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:799568",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Mq0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:800165",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Mvs": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:800467",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_M_u": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:800541",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_M2t": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:800786",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_M6V": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:801082",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_M5w": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:801247",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_MBj": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:801352",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_M9A": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:801519",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_ME$": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:801562",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_MG1": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:801956",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_MOc": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:802435",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_MSh": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:802702",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HYa": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:802817",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HW3": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:802982",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Hc3": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:803110",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Hd_": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:803163",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HbK": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:803313",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Hh$": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:803418",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HiW": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:803717",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HiV": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:803770",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Hmi": {
+    "name": "M_Lighting Switches:Three Way:Three Way:803977",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HmR": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:804030",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HnE": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:804075",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Hs4": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:804129",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_H_V": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:804666",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HzI": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:804855",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_H3k": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:804939",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_H0H": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:805044",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_H73": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:805222",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HAG": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:805429",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HBU": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:805499",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_H8J": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:805558",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HER": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:805694",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HC2": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:805799",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HIr": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:805904",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HH6": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:806115",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HM8": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:806189",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HL8": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:806381",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HRa": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:806465",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_HUk": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:806667",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_GXm": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:807125",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Gde": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:807245",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_GbR": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:807422",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_GkJ": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:807734",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Gn0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:808165",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Gqh": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:808334",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1LRV9a7_TAYg7FVXvT_Gym": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:808853",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "27hb3WYkv0ex4q4a4cSxDK": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:809790",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "27hb3WYkv0ex4q4a4cSxOn": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:810587",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "27hb3WYkv0ex4q4a4cSxRw": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:810640",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "27hb3WYkv0ex4q4a4cSuZ6": {
+    "name": "M_Lighting Switches:Three Way:Three Way:811180",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFX4V": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:811985",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXRb": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:812075",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXOI": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:812252",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXT0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:812430",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXI4": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:812618",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXGG": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:812766",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXMT": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:812883",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXKV": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:813009",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXfC": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:813186",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXex": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:813301",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXlx": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:813365",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXiw": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:813556",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXct": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:813945",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXbo": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:814012",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXxu": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:814134",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXvz": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:814259",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFX$0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:814350",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFX_r": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:814459",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXp1": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:814607",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXop": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:814717",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXmG": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:814814",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFXst": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:814969",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWBF": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:815105",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWAv": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:815223",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWCJ": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:815581",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWR6": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:816136",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWUe": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:816486",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWUo": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:816508",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWIC": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:816706",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWHC": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:816770",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWGR": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:816853",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWhS": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:817170",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWgV": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:817233",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWkr": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:817531",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWjM": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:817560",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWZA": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:817668",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWYU": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:817744",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWWY": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:817900",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWb5": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:818059",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFW_D": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:818499",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWot": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:818809",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWta": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:818986",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFWqu": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:819190",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlB0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:819214",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlA0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:819278",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFl8x": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:819445",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlEw": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:819572",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFl2$": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:819825",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFl1c": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:819880",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFl6b": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:820075",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlVk": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:820512",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlIG": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:820830",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlL0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:821134",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlh0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:821262",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlko": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:821628",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlWV": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:821969",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlWf": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:821991",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFldo": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:822076",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlbg": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:822180",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlv3": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:822413",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFl_q": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:822650",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFly1": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:822735",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlmL": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:823003",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFltK": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:823066",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFlsj": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:823139",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFkDY": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:823724",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFk5T": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:824211",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "0FXKOTtYf3kRrcedvXFkR1": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:824335",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3dg6tDRA54OxNLWvKHl6CI": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:826019",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVXP": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:827675",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVW0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:827714",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVZs": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:827828",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVfw": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:828216",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVtH": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:828563",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVmy": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:828798",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVov": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:828923",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanV_d": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:829157",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVu6": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:829252",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVuu": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:829306",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanV5l": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:829485",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanV79": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:829579",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanV1V": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:829725",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanV3R": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:829849",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVCR": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:830041",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVEW": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:830178",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVBB": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:830345",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVLc": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:830500",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVNE": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:830604",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVM3": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:830657",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVH2": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:830720",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVId": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:830949",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVTJ": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:830993",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVSA": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:831048",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVVp": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:831153",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVPO": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:831258",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVOD": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:831311",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanVRX": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:831395",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUbh": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:831529",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUdZ": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:831649",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUXk": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:831788",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUrW": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:832546",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUmk": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:832876",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUvT": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:833311",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanU5u": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:833594",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanU0$": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:833917",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUEK": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:834262",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUAC": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:834510",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUK2": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:834624",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUHA": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:834824",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanUHn": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:834867",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanPbf": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:835627",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanPat": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:835701",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanPdZ": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:835745",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanPZn": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:836019",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanPnT": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:836895",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanPpb": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:837031",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanP$x": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:837305",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanP0u": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:838010",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanP8b": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:838503",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanPNp": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:838833",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanPTe": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:839210",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanPQS": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:839646",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanOXI": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:839952",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanOWw": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:840056",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3q4w0ijjzFuh9My1IanOiB": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:840265",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8rA": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:840473",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8rc": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:840501",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8qj": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:840574",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8jK": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:840967",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8lM": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:841093",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8W3": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:841296",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8ZL": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:841350",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8dS": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:841615",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8cT": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:841678",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8Q0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:841939",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8V3": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:842128",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8Cz": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:843118",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8FT": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:843150",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe8Ef": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:843258",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe80B": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:843352",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe82i": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:843519",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHe86S": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:843727",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBvA": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:843801",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBuz": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:843886",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBxm": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:843939",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBwm": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:844003",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeB$J": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:844160",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeB_E": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:844253",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBmk": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:844413",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBrN": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:844548",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBtH": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:844674",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBs_": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:844781",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBeP": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:844874",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBkK": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:845255",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBYG": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:845507",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBb$": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:845612",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBcI": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:845761",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBPb": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:845878",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBU0": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:846291",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBUe": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:846331",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBIk": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:846589",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBLl": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:846652",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBM_": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:846829",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeB9b": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:846902",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeBAQ": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:847049",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeB0y": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:847471",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeB2p": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:847584",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeB4P": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:847690",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeAoZ": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:848624",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeAtr": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:848806",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeATg": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:850233",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "050aEzwQLErOVNO9YHeASJ": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:850240",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "37vDTF7Of8HgUYMzIbEQ21": {
+    "name": "M_Lighting Switches:Single Pole:Single Pole:850424",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "1VAod$xq1ABfrwbyiSLBLn": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N21E2:858534",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$YlYG": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N21E1:858660",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "2FRKJ442L0sA1o0Zl_sArA": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N21E:858856",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$Ylay": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:F21E:859016",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$Ylxj": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:F41E:859225",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$Yluj": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:E41E:859289",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$Yi9e": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N21B:860380",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$Yi91": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N21B1:860405",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$YiCy": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N21B2:860552",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$YiDh": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:L41B:860639",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$Yi5D": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N21C:861177",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$YiQe": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N21C1:861212",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "23oK9Ybpf2MPoMOri$YiVz": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:L41C:861513",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26auZd": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:2SITE:936184",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26auax": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N22B2:936228",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26aub8": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N22B1:936279",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26aufL": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:L42B:936522",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26auiS": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:F42B:936707",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26aun8": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N22B:937047",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "2ls3VmmPX7V9D6mR$D93fB": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:F22B:937316",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26avCY": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:F42C:938813",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26avDc": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:F22C:938873",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26avGk": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N22C:939057",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26avHY": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N22C1:939133",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26avIl": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:N22C2:939184",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26avMR": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:2MEC:939396",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3siVN4TEj4IQGQkG26avOk": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:L42C:939569",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  },
+  "3mlsJvN5541AmnAA2SD4t5": {
+    "name": "M_Lighting and Appliance Panelboard - 208V MLO:225 A:1MEC:1063416",
+    "type": "IfcFlowTerminal",
+    "category": "electrical"
+  }
+}

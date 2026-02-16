@@ -1,0 +1,57 @@
+const express = require('express');
+const multer = require('multer');
+const { Queue } = require('bullmq');
+const path = require('path');
+
+const app = express();
+const port = 3000;
+
+// 1. Configurare Redis (presupune că rulează pe localhost)
+const redisConnection = { host: 'localhost', port: 6379 };
+
+// 2. Definirea cozii de task-uri
+const conversionQueue = new Queue('ifc-conversion', { connection: redisConnection });
+
+// 3. Configurare Multer pentru file upload
+const storage = multer.diskStorage({
+  destination: './uploads',
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+const upload = multer({ storage });
+
+// 4. Endpoint-ul de Upload
+app.post('/upload-ifc', upload.single('ifcfile'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('Niciun fișier încărcat.');
+  }
+
+  const inputPath = path.resolve(req.file.path);
+  const outputPath = path.resolve(req.file.path.replace('.ifc', '.glb'));
+
+  try {
+    // 5. Adăugarea job-ului în coadă
+    const job = await conversionQueue.add('convert-ifc', {
+      input: inputPath,
+      output: outputPath
+    });
+
+    console.log(`Job adăugat cu ID: ${job.id}`);
+    
+    // Răspundem imediat utilizatorului (HTTP 202 Accepted)
+    res.status(202).json({ 
+      message: 'Fișier primit, procesarea a început.',
+      jobId: job.id,
+      outputFilename: path.basename(outputPath)
+    });
+
+  } catch (error) {
+    console.error('Eroare la adăugarea job-ului:', error);
+    res.status(500).send('Eroare server la pornirea procesării.');
+  }
+});
+
+app.listen(port, () => {
+  console.log(`API Server pornit pe http://localhost:${port}`);
+});

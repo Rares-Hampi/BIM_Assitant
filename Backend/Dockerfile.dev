@@ -1,0 +1,33 @@
+# Development Dockerfile for Backend with hot-reload
+FROM node:18-alpine
+
+# Install Python and dependencies
+RUN apk add --no-cache \
+    python3 \
+    py3-pip \
+    build-base \
+    python3-dev \
+    libffi-dev \
+    openssl-dev
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies including nodemon for hot-reload
+RUN npm install && npm install -g nodemon
+
+# Install Python dependencies
+RUN pip3 install --no-cache-dir --break-system-packages \
+    ifcopenshell \
+    numpy
+
+# Create necessary directories
+RUN mkdir -p uploads output_web new/output_web
+
+# Expose port
+EXPOSE 3000
+
+# Start with nodemon for hot-reload
+CMD ["nodemon", "--watch", ".", "--ext", "js,json", "index.js"]

@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import './App.css';
-import Sidebar from './Components/Sidebar';
-import Canvas3D, { type Canvas3DHandle } from './Components/Canvas3D';
-import ClashReport from './Components/ClashReport';
-import VisualControls from './Components/VisualControls';
+import Sidebar from './components/Layout/Sidebar';
+import Canvas3D, { type Canvas3DHandle } from './components/Project/Canvas3D';
+import ClashReport from './components/Report/ClashReport';
+import VisualControls from './components/Project/VisualControls';
 
 function App() {
   const canvasRef = useRef<Canvas3DHandle>(null);

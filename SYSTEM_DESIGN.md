@@ -876,14 +876,14 @@ Backend/
 
 
 <div >
-    <img src="backend.png" alt="alt text" >
+    <img src="./images/backend.png" alt="alt text" >
 </div>
 ---
 
 ##  Database Schema
 
 <div>
-    <img src="database.png" alt="alt text" >
+    <img src="./images/database.png" alt="alt text" >
 </div>
 
 

@@ -66,3 +66,6 @@ build/
 # Models
 *.ifc
 *.glb
+
+# Folders
+python/

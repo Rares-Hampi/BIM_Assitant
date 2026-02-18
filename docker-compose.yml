@@ -123,7 +123,7 @@ services:
   # ═══════════════════════════════════════════════════════
   worker:
     build:
-      context: ./Backend/python
+      context: ./Backend/workers/python
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:

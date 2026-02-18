@@ -12,6 +12,16 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Detect docker compose command
+if command -v docker-compose &> /dev/null; then
+    DOCKER_COMPOSE="docker-compose"
+elif docker compose version &> /dev/null 2>&1; then
+    DOCKER_COMPOSE="docker compose"
+else
+    echo -e "${RED}✗ Docker Compose is not installed${NC}"
+    exit 1
+fi
+
 # Functions
 print_header() {
     echo -e "${BLUE}========================================${NC}"
@@ -41,12 +51,7 @@ check_docker() {
         exit 1
     fi
     
-    if ! command -v docker-compose &> /dev/null && ! docker compose version &> /dev/null; then
-        print_error "Docker Compose is not installed. Please install Docker Compose first."
-        exit 1
-    fi
-    
-    print_success "Docker and Docker Compose are installed"
+    print_success "Docker and Docker Compose are installed ($DOCKER_COMPOSE)"
 }
 
 check_env_file() {
@@ -66,7 +71,7 @@ check_env_file() {
 
 start_services() {
     print_info "Starting all services in DEVELOPMENT mode..."
-    docker-compose up -d
+    $DOCKER_COMPOSE up -d
     print_success "All services started successfully"
     print_warning "Code changes will auto-reload. Check logs with: ./docker-manager.sh logs"
     show_status
@@ -74,32 +79,32 @@ start_services() {
 
 stop_services() {
     print_info "Stopping all services..."
-    docker-compose down
+    $DOCKER_COMPOSE down
     print_success "All services stopped"
 }
 
 restart_services() {
     print_info "Restarting all services..."
-    docker-compose restart
+    $DOCKER_COMPOSE restart
     print_success "All services restarted"
 }
 
 show_status() {
     print_info "Service Status:"
-    docker-compose ps
+    $DOCKER_COMPOSE ps
 }
 
 show_logs() {
     if [ -z "$1" ]; then
-        docker-compose logs -f
+        $DOCKER_COMPOSE logs -f
     else
-        docker-compose logs -f "$1"
+        $DOCKER_COMPOSE logs -f "$1"
     fi
 }
 
 rebuild_services() {
     print_info "Rebuilding services..."
-    docker-compose up -d --build
+    $DOCKER_COMPOSE up -d --build
     print_success "Services rebuilt and started"
 }
 
@@ -107,7 +112,7 @@ clean_all() {
     print_warning "This will remove all containers, volumes, and data!"
     read -p "Are you sure? (yes/no): " confirm
     if [ "$confirm" = "yes" ]; then
-        docker-compose down -v
+        $DOCKER_COMPOSE down -v
         print_success "All services and data removed"
     else
         print_info "Operation cancelled"
@@ -138,7 +143,7 @@ backup_db() {
     print_info "Creating database backup..."
     timestamp=$(date +%Y%m%d_%H%M%S)
     backup_file="backup_${timestamp}.sql"
-    docker-compose exec -T postgres pg_dump -U bim_user bim_assistant > "$backup_file"
+    $DOCKER_COMPOSE exec -T postgres pg_dump -U bim_user bim_assistant > "$backup_file"
     print_success "Database backed up to: $backup_file"
 }
 
@@ -173,21 +178,7 @@ open_shell() {
         echo "Available services: backend, frontend, postgres, rabbitmq, minio, worker"
         exit 1
     fi
-    docker-compose exec "$1" sh
-}
-    fi
-    
-    filename=$(basename "$1")
-    print_info "Converting IFC file: $filename"
-    print_info "This may take a few minutes depending on file size..."
-    
-    # Build the converter if not already built
-    docker-compose build ifc-converter
-    
-    # Run the conversion
-    docker-compose run --rm ifc-converter "$filename"
-    
-    print_success "Conversion complete! Check Backend/new/output_web/ for output files"
+    $DOCKER_COMPOSE exec "$1" sh
 }
 
 # Main script

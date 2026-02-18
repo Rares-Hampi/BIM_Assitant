@@ -25,7 +25,7 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 ### Key Technologies
 - **Frontend**: React + TypeScript + Vite + Three.js
 - **Backend**: Node.js + Express
-- **Queue System**: RabbitMq
+- **Queue System**: RabbitMQ
 - **Database**: PostgreSQL
 - **Object Storage**: MinIO (S3-compatible)
 - **IFC Processing**: Python + IfcOpenShell
@@ -219,7 +219,7 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 
 5. SYNCHRONOUS vs ASYNCHRONOUS Processing
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   DECISION: Asynchronous (BullMQ) 
+   DECISION: Asynchronous (RabbitMQ) 
    
    PROS:
     Non-blocking API responses

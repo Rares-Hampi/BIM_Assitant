@@ -1,137 +1,32 @@
 const express = require('express');
 const router = express.Router();
+const projectController = require('../controllers/project.controller');
+const { authenticate } = require('../middleware/auth.middleware');
+const { validateProjectCreate, validateProjectUpdate, validateUUID } = require('../middleware/validation.middleware');
+const { catchAsync } = require('../middleware/error.middleware');
+
+// All routes require authentication
+router.use(authenticate);
 
 // GET /api/projects - Get all projects for current user
-router.get('/', async (req, res) => {
-  try {
-    // TODO: Implement in projectController
-    // Should be protected with auth middleware
-    res.status(501).json({
-      success: false,
-      message: 'Get projects endpoint not implemented yet'
-    });
-  } catch (error) {
-    console.error('Get projects error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error'
-    });
-  }
-});
+router.get('/', catchAsync(projectController.getAllProjects));
 
 // POST /api/projects - Create new project
-router.post('/', async (req, res) => {
-  try {
-    // TODO: Implement in projectController
-    // Expected body: { name, description }
-    res.status(501).json({
-      success: false,
-      message: 'Create project endpoint not implemented yet'
-    });
-  } catch (error) {
-    console.error('Create project error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error'
-    });
-  }
-});
+router.post('/', validateProjectCreate, catchAsync(projectController.createProject));
 
 // GET /api/projects/:id - Get project by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    // TODO: Implement in projectController
-    res.status(501).json({
-      success: false,
-      message: 'Get project by ID endpoint not implemented yet',
-      projectId: id
-    });
-  } catch (error) {
-    console.error('Get project error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error'
-    });
-  }
-});
+router.get('/:id', validateUUID('id'), catchAsync(projectController.getProjectById));
 
 // PUT /api/projects/:id - Update project
-router.put('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    // TODO: Implement in projectController
-    // Expected body: { name?, description?, status? }
-    res.status(501).json({
-      success: false,
-      message: 'Update project endpoint not implemented yet',
-      projectId: id
-    });
-  } catch (error) {
-    console.error('Update project error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error'
-    });
-  }
-});
+router.put('/:id', validateUUID('id'), validateProjectUpdate, catchAsync(projectController.updateProject));
 
 // DELETE /api/projects/:id - Delete project
-router.delete('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    // TODO: Implement in projectController
-    // Should cascade delete all files and reports
-    res.status(501).json({
-      success: false,
-      message: 'Delete project endpoint not implemented yet',
-      projectId: id
-    });
-  } catch (error) {
-    console.error('Delete project error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error'
-    });
-  }
-});
+router.delete('/:id', validateUUID('id'), catchAsync(projectController.deleteProject));
 
 // GET /api/projects/:id/files - Get all files in project
-router.get('/:id/files', async (req, res) => {
-  try {
-    const { id } = req.params;
-    // TODO: Implement in projectController
-    res.status(501).json({
-      success: false,
-      message: 'Get project files endpoint not implemented yet',
-      projectId: id
-    });
-  } catch (error) {
-    console.error('Get project files error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error'
-    });
-  }
-});
+router.get('/:id/files', validateUUID('id'), catchAsync(projectController.getProjectFiles));
 
 // GET /api/projects/:id/reports - Get all clash reports in project
-router.get('/:id/reports', async (req, res) => {
-  try {
-    const { id } = req.params;
-    // TODO: Implement in projectController
-    res.status(501).json({
-      success: false,
-      message: 'Get project reports endpoint not implemented yet',
-      projectId: id
-    });
-  } catch (error) {
-    console.error('Get project reports error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error'
-    });
-  }
-});
+router.get('/:id/reports', validateUUID('id'), catchAsync(projectController.getProjectReports));
 
 module.exports = router;

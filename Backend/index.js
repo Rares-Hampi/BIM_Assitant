@@ -9,11 +9,11 @@ const PORT = process.env.PORT || 3000;
 // Import database connection
 const { connectDatabase, disconnectDatabase } = require('./utils/database');
 
-// TODO: Import RabbitMQ connection when rabbitmq/connection.js is created
-// const { connectRabbitMQ } = require('./rabbitmq/connection');
+// Import RabbitMQ connection
+const { connectRabbitMQ, disconnectRabbitMQ } = require('./services/queue.service');
 
-// TODO: Import MinIO initialization when services/storageService.js is created
-// const { initializeBuckets } = require('./services/storageService');
+// Import MinIO initialization
+const { initializeBuckets } = require('./services/storage.service');
 
 /**
  * Initialize all services and start the server
@@ -28,15 +28,15 @@ async function startServer() {
     await connectDatabase();
     console.log('PostgreSQL connected successfully');
     
-    // TODO: Connect to RabbitMQ
-    // console.log('Connecting to RabbitMQ...');
-    // await connectRabbitMQ();
-    // console.log('RabbitMQ connected successfully');
+    // Connect to RabbitMQ
+    console.log('Connecting to RabbitMQ...');
+    await connectRabbitMQ();
+    console.log('RabbitMQ connected successfully');
     
-    // TODO: Initialize MinIO buckets
-    // console.log('Initializing MinIO buckets...');
-    // await initializeBuckets();
-    // console.log('MinIO buckets initialized successfully');
+    // Initialize MinIO buckets
+    console.log('Initializing MinIO buckets...');
+    await initializeBuckets();
+    console.log('MinIO buckets initialized successfully');
     
     // Start Express server
     app.listen(PORT, '0.0.0.0', () => {
@@ -59,14 +59,14 @@ async function startServer() {
 process.on('SIGTERM', async () => {
   console.log('SIGTERM signal received: closing HTTP server');
   await disconnectDatabase();
-  // TODO: Close RabbitMQ connections
+  await disconnectRabbitMQ();
   process.exit(0);
 });
 
 process.on('SIGINT', async () => {
   console.log('SIGINT signal received: closing HTTP server');
   await disconnectDatabase();
-  // TODO: Close RabbitMQ connections
+  await disconnectRabbitMQ();
   process.exit(0);
 });
 

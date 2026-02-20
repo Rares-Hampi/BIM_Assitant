@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { checkDatabaseHealth } = require('../utils/database');
+const { checkHealth: checkMinioHealth } = require('../services/storage.service');
+const { checkHealth: checkRabbitMQHealth } = require('../services/queue.service');
 
 // GET /api/health - Basic health check
 router.get('/', async (req, res) => {
@@ -49,17 +51,27 @@ router.get('/detailed', async (req, res) => {
       };
     }
     
-    // TODO: Check RabbitMQ connection
-    healthChecks.services.rabbitmq = {
-      status: 'not_implemented',
-      message: 'RabbitMQ health check not implemented yet'
-    };
+    // Check RabbitMQ connection
+    try {
+      const rabbitHealth = await checkRabbitMQHealth();
+      healthChecks.services.rabbitmq = rabbitHealth;
+    } catch (error) {
+      healthChecks.services.rabbitmq = {
+        status: 'unhealthy',
+        error: error.message
+      };
+    }
     
-    // TODO: Check MinIO connection
-    healthChecks.services.minio = {
-      status: 'not_implemented',
-      message: 'MinIO health check not implemented yet'
-    };
+    // Check MinIO connection
+    try {
+      const minioHealth = await checkMinioHealth();
+      healthChecks.services.minio = minioHealth;
+    } catch (error) {
+      healthChecks.services.minio = {
+        status: 'unhealthy',
+        error: error.message
+      };
+    }
     
     // Check memory usage
     const memUsage = process.memoryUsage();
@@ -79,7 +91,7 @@ router.get('/detailed', async (req, res) => {
     
     // Overall status
     const allHealthy = Object.values(healthChecks.services).every(
-      service => service.status === 'healthy' || service.status === 'not_implemented'
+      service => service.status === 'healthy'
     );
     
     healthChecks.status = allHealthy ? 'healthy' : 'unhealthy';

@@ -1,5 +1,6 @@
 const { getPrismaClient } = require('../utils/database');
 const { AppError } = require('../middleware/error.middleware');
+const { publishClashDetectionJob } = require('../services/queue.service');
 
 const prisma = getPrismaClient();
 
@@ -56,7 +57,14 @@ const generateReport = async (req, res, next) => {
       }
     });
     
-    // TODO: Publish clash detection job to RabbitMQ
+    // Publish clash detection job to RabbitMQ
+    await publishClashDetectionJob({
+      reportId: report.id,
+      projectId,
+      userId: req.userId,
+      fileIds,
+      settings: settings || {}
+    });
     
     res.status(201).json({
       success: true,

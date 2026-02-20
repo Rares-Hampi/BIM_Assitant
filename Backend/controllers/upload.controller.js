@@ -1,5 +1,8 @@
 const { getPrismaClient } = require('../utils/database');
 const { AppError } = require('../middleware/error.middleware');
+const { publishConversionJob } = require('../services/queue.service');
+const fs = require('fs').promises;
+const path = require('path');
 
 const prisma = getPrismaClient();
 
@@ -29,27 +32,45 @@ const uploadFiles = async (req, res, next) => {
       throw new AppError('Access denied. You do not own this project.', 403);
     }
     
-    // TODO: Upload files to MinIO
-    // TODO: Create BIMFile records in database
-    // TODO: Publish conversion jobs to RabbitMQ
+    // Create temporary uploads directory
+    const uploadsDir = path.join(__dirname, '../uploads/temp');
+    await fs.mkdir(uploadsDir, { recursive: true });
     
+    // Save files temporarily and create records
     const uploadedFiles = [];
     
     for (const file of files) {
-      // Create file record
+      const fileName = `${Date.now()}-${file.originalname}`;
+      const tempPath = path.join(uploadsDir, fileName);
+      
+      // Save file temporarily to filesystem
+      await fs.writeFile(tempPath, file.buffer);
+      
+      // Create file record in database
       const bimFile = await prisma.bIMFile.create({
         data: {
           projectId,
           userId: req.userId,
           originalName: file.originalname,
-          fileName: `${Date.now()}-${file.originalname}`,
+          fileName,
           fileType: 'Unknown', // Will be determined by conversion worker
           fileSize: BigInt(file.size),
           mimeType: file.mimetype,
-          storagePath: `raw/${projectId}/${Date.now()}-${file.originalname}`,
+          storagePath: tempPath, // Temporary path
           status: 'pending',
-          progress: 0
+          progress: 0,
+          statusMessage: 'Queued for conversion'
         }
+      });
+      
+      // Publish conversion job to RabbitMQ
+      // Worker will process file and delete original after conversion
+      await publishConversionJob({
+        fileId: bimFile.id,
+        projectId,
+        userId: req.userId,
+        tempPath,
+        originalName: file.originalname
       });
       
       uploadedFiles.push(bimFile);

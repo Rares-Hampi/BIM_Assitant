@@ -46,6 +46,10 @@ package-lock.json
 .env.local
 .env.*.local
 
+# Temporary uploads (deleted after conversion)
+uploads/temp/
+uploads/*.ifc
+
 # OS
 .DS_Store
 Thumbs.db

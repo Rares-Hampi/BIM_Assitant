@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Sidebar.css';
-// import { Link } from 'react-router-dom';
-import Logo from '../../public/Logo.svg';
+import Logo from '../../../public/Logo.svg';
 
 const Sidebar: React.FC = () => {
     const [activeItem, setActiveItem] = useState('projects');

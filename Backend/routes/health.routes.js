@@ -9,6 +9,8 @@ router.get('/', async (req, res) => {
   try {
     const dbHealth = await checkDatabaseHealth();
     
+    console.log('Database health check result:', dbHealth);
+    
     const isHealthy = dbHealth.status === 'healthy';
     
     res.status(isHealthy ? 200 : 503).json({
@@ -25,7 +27,8 @@ router.get('/', async (req, res) => {
     res.status(503).json({
       status: 'unhealthy',
       timestamp: new Date().toISOString(),
-      error: error.message
+      error: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 });

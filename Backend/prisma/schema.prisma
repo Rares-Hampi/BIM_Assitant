@@ -1,0 +1,110 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Users table
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  password     String
+  fullName     String   @map("full_name")
+  company      String?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  projects     Project[]
+  files        BIMFile[]
+  clashReports ClashReport[]
+  
+  @@map("users")
+}
+
+// Projects table
+model Project {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  name        String
+  description String?
+  status      String   @default("active") // active, archived, deleted
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  files        BIMFile[]
+  clashReports ClashReport[]
+  
+  @@map("projects")
+  @@index([userId])
+}
+
+// BIM Files table
+model BIMFile {
+  id               String   @id @default(uuid())
+  projectId        String   @map("project_id")
+  userId           String   @map("user_id")
+  originalName     String   @map("original_name")
+  fileName         String   @map("file_name")
+  fileType         String   @map("file_type") // Architecture, MEP, HVAC, Structural
+  fileSize         BigInt   @map("file_size")
+  mimeType         String   @map("mime_type")
+  storagePath      String   @map("storage_path") // MinIO path for original IFC
+  convertedPath    String?  @map("converted_path") // MinIO path for GLB models
+  metadataPath     String?  @map("metadata_path") // MinIO path for JSON metadata
+  thumbnailPath    String?  @map("thumbnail_path")
+  status           String   @default("pending") // pending, processing, completed, failed
+  progress         Int      @default(0)
+  errorMessage     String?  @map("error_message")
+  statusMessage    String?  @map("status_message")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("bim_files")
+  @@index([projectId])
+  @@index([userId])
+  @@index([status])
+}
+
+// Clash Reports table
+model ClashReport {
+  id          String   @id @default(uuid())
+  projectId   String   @map("project_id")
+  userId      String   @map("user_id")
+  status      String   @default("pending") // pending, processing, completed, failed
+  fileIds     String[] @map("file_ids") // Array of BIMFile IDs used for clash detection
+  storagePath String?  @map("storage_path") // MinIO path for report Excel
+  
+  // Statistics
+  totalClashes    Int   @default(0) @map("total_clashes")
+  criticalClashes Int   @default(0) @map("critical_clashes")
+  majorClashes    Int   @default(0) @map("major_clashes")
+  minorClashes    Int   @default(0) @map("minor_clashes")
+  
+  // JSONB for clash data
+  clashesData Json?   @map("clashes_data") // Array of clash objects
+  settings    Json?   // Clash detection settings (tolerance, filters)
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("clash_reports")
+  @@index([projectId])
+  @@index([userId])
+  @@index([status])
+}
+

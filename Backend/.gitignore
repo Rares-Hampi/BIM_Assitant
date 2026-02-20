@@ -69,3 +69,4 @@ build/
 
 # Folders
 python/
+/generated/prisma

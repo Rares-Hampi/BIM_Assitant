@@ -33,7 +33,6 @@ Access the application at:
 - **MinIO Console**: http://localhost:9001
 - **RabbitMQ Management**: http://localhost:15672 (guest/guest)
 
-For detailed Docker instructions, see [README_DOCKER.md](README_DOCKER.md)
 
 ##  Services
 
@@ -77,18 +76,70 @@ docker-compose up -d postgres rabbitmq minio
 
 ```
 BIM_Assitant/
-├── Backend/              # Node.js API server
-│   ├── index.js         # Main server file
-│   ├── uploads/         # Uploaded IFC files
-│   └── output_web/      # Processed models
-├── Web/                 # React frontend
+├── Backend/                    # Node.js Express API server
+│   ├── index.js               # Application entry point
+│   ├── server.js              # Express server configuration
+│   ├── package.json           # Node.js dependencies
+│   ├── .env                   # Environment variables
+│   ├── Dockerfile.dev         # Development Docker image
+│   ├── prisma.config.ts       # Prisma configuration
+│   ├── controllers/           # Request handlers
+│   │   ├── auth.controller.js
+│   │   ├── project.controller.js
+│   │   ├── upload.controller.js
+│   │   ├── progress.controller.js
+│   │   └── report.controller.js
+│   ├── routes/                # API route definitions
+│   │   ├── auth.routes.js
+│   │   ├── project.routes.js
+│   │   ├── upload.routes.js
+│   │   ├── progress.routes.js
+│   │   ├── report.routes.js
+│   │   └── health.routes.js
+│   ├── middleware/            # Express middleware
+│   │   ├── auth.middleware.js      # JWT authentication
+│   │   ├── upload.middleware.js    # Multer file upload
+│   │   ├── validation.middleware.js # Input validation
+│   │   └── error.middleware.js     # Error handling
+│   ├── services/              # Business logic layer
+│   │   ├── storage.service.js      # MinIO operations
+│   │   ├── queue.service.js        # RabbitMQ management
+│   │   ├── conversionService.js
+│   │   ├── clashService.js
+│   │   └── notificationService.js
+│   ├── prisma/                # Database ORM
+│   │   ├── schema.prisma      # Database schema
+│   │   └── migrations/        # Migration history
+│   ├── utils/                 # Utility functions
+│   │   ├── database.js        # Prisma client & health checks
+│   │   ├── logger.js
+│   │   └── rabbitmq.js
+│   ├── workers/               # Background job processors
+│   │   └── python/
+│   │       ├── convert.py     # IFC to GLB converter
+│   │       └── Dockerfile
+│   └── uploads/               # Temporary file storage
+│       └── temp/              # Deleted after conversion
+│
+├── Web/                       # React + TypeScript frontend
 │   ├── src/
-│   │   ├── Components/  # React components
-│   │   └── assets/      # Static assets
-│   └── public/          # Public files
-├── docker-compose.yml   # Docker services configuration
-├── docker-manager.sh    # Helper script for Docker operations
-└── README_DOCKER.md     # Detailed Docker documentation
+│   │   ├── pages/            # Page components
+│   │   ├── components/       # Reusable components
+│   │   │   ├── Layout/      # Sidebar, Header
+│   │   │   ├── Project/     # Project components
+│   │   │   ├── Viewer/      # 3D viewer components
+│   │   │   └── Report/      # Clash report components
+│   │   ├── services/        # API client services
+│   │   ├── context/         # React context providers
+│   │   └── hooks/           # Custom React hooks
+│   ├── public/              # Static assets
+│   ├── Dockerfile.dev       # Development Docker image
+│   ├── vite.config.ts       # Vite configuration
+│   └── package.json         # Frontend dependencies
+│
+├── docker-compose.yml         # Multi-container orchestration
+├── SYSTEM_DESIGN.md          # Architecture documentation
+└── LICENSE
 ```
 
 ##  Tech Stack

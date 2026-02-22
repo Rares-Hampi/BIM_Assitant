@@ -761,29 +761,28 @@ Backend/
 │   └── health.routes.js       # /api/health
 │
 ├── controllers/
-│   ├── authController.js      # Handle authentication
-│   ├── projectController.js   # CRUD operations
-│   ├── uploadController.js    # File upload logic
-│   ├── reportController.js    # Clash report generation
-│   └── progressController.js  # SSE progress streaming
+│   ├── auth.controller.js      # Handle authentication
+│   ├── project.controller.js   # CRUD operations
+│   ├── upload.controller.js    # File upload logic
+│   ├── report.controller.js    # Clash report generation
+│   └── progress.controller.js  # SSE progress streaming
 │
 ├── services/
-│   ├── conversionService.js   # IFC → GLB conversion
-│   ├── clashService.js        # Clash detection logic
-│   ├── storageService.js      # MinIO operations
-│   ├── notificationService.js # RabbitMQ pub/sub
-│   └── queueService.js        # RabbitMQ job management
+│   ├── conversion.service.js   # IFC → GLB conversion
+│   ├── clash.service.js        # Clash detection logic
+│   ├── storage.service.js      # MinIO operations
+│   ├── notification.service.js # RabbitMQ pub/sub
+│   └── queue.service.js        # RabbitMQ job management
 │
 ├── workers/
 │   ├── conversionWorker.js    # RabbitMQ worker (Node.js)
 │   ├── pythonWorker.js        # Bridge to Python workers
 │   └── cleanupWorker.js       # Cleanup temporary files
 │
-├── models/
-│   ├── User.js                # User model
-│   ├── Project.js             # Project model
-│   ├── BIMFile.js             # File model
-│   └── ClashReport.js         # Report model
+├── prisma/
+│   ├── schema.prisma          # Prisma schema definition
+│   └── migrations/            # Database migrations
+│
 │
 ├── middleware/
 │   ├── auth.middleware.js     # JWT verification

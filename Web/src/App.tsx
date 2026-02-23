@@ -1,42 +1,48 @@
-import { useState, useRef } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './hooks/useAuth';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import ProjectsPage from './pages/ProjectsPage';
+// import ProjectViewPage from './pages/ProjectViewPage';
 import './App.css';
-import Sidebar from './components/Layout/Sidebar';
-import Canvas3D, { type Canvas3DHandle } from './components/Project/Canvas3D';
-import ClashReport from './components/Report/ClashReport';
-import VisualControls from './components/Project/VisualControls';
+import ProjectViewPage from './pages/ProjectViewPage';
+
+// Protected Route Component
+const ProtectedRoute = ({ children }: { children: React.ReactElement }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
 
 function App() {
-  const canvasRef = useRef<Canvas3DHandle>(null);
-  const [modelVisibility, setModelVisibility] = useState<Record<string, boolean>>({
-    structural: true,
-    walls: true,
-    ducts: true,
-    electrical: true,
-    pipes: true,
-  });
-
-  const handleToggleModel = (modelName: string) => {
-    setModelVisibility(prev => ({
-      ...prev,
-      [modelName]: !prev[modelName]
-    }));
-  };
-
-  const handleResetView = () => {
-    canvasRef.current?.resetView();
-  };
-
   return (
-    <div className="app">
-      <Sidebar />
-      <VisualControls 
-        onToggleModel={handleToggleModel} 
-        modelVisibility={modelVisibility}
-        onResetView={handleResetView}
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+
+      {/* Protected Routes */}
+      <Route
+        path="/projects"
+        element={
+          <ProtectedRoute>
+            <ProjectsPage />
+          </ProtectedRoute>
+        }
       />
-      <Canvas3D ref={canvasRef} modelVisibility={modelVisibility} />
-      <ClashReport />
-    </div>
+      <Route
+        path="/projects/:projectId"
+        element={
+          <ProtectedRoute>
+            <ProjectViewPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 }
 

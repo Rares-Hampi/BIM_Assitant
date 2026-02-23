@@ -3,11 +3,8 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies including nodemon for hot-reload
-RUN npm install && npm install -g nodemon
+# Install nodemon globally for hot-reload
+RUN npm install -g nodemon
 
 # Create necessary directories
 RUN mkdir -p uploads output_web new/output_web
@@ -15,5 +12,5 @@ RUN mkdir -p uploads output_web new/output_web
 # Expose port
 EXPOSE 3000
 
-# Start with nodemon for hot-reload
-CMD ["nodemon", "--watch", ".", "--ext", "js,json", "index.js"]
+# Start script that installs dependencies then runs nodemon
+CMD sh -c "npm install && npx prisma generate && nodemon --watch . --ext js,json index.js"

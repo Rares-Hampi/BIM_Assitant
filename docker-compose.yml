@@ -167,7 +167,7 @@ services:
     ports:
       - "5173:5173"
     environment:
-      VITE_API_URL: http://localhost:3000
+      VITE_API_URL: http://localhost:3000/api
       VITE_MINIO_URL: http://localhost:9000
     volumes:
       - ./Web:/app

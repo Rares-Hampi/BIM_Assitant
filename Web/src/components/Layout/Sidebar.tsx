@@ -1,38 +1,68 @@
-import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { FaFolderOpen, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import Logo from '/Logo.svg';
 import './Sidebar.css';
-import Logo from '../../../public/Logo.svg';
 
-const Sidebar: React.FC = () => {
-    const [activeItem, setActiveItem] = useState('projects');
+const Sidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { logout, user } = useAuth();
 
-    const menuItems = [
-        { id: 'homepage', label: 'Homepage',  },
-        { id: 'projects', label: 'Projects', },
-        { id: 'new-project', label: 'New Project', },
-    ];
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
-    return (
-        <div className="sidebar">
-            <div className="sidebar-header">
-                <div className="logo">
-                    <img src={Logo} alt="BIM Analyst Logo" />
-                </div>
-            </div>
-
-            <nav className="sidebar-nav">
-                {menuItems.map((item) => (
-                    <button
-                        key={item.id}
-                        className={`nav-item ${activeItem === item.id ? 'active' : ''}`}
-                        onClick={() => setActiveItem(item.id)}
-                    >
-                        
-                        <span className="nav-label">{item.label}</span>
-                    </button>
-                ))}
-            </nav>
+  return (
+    <div className="sidebar">
+      <div className="sidebar-header">
+        <div className="logo">
+          <img src={Logo} alt="BIM Analyst Logo" />
         </div>
-    );
+      </div>
+
+      <nav className="sidebar-nav">
+        <button
+          className={`nav-item ${location.pathname === '/projects' ? 'active' : ''}`}
+          onClick={() => navigate('/projects')}
+          title="Projects"
+        >
+          <FaFolderOpen className="nav-icon" />
+          <span className="nav-label">Projects</span>
+        </button>
+
+        <button
+          className="nav-item"
+          onClick={() => {/* Settings page */}}
+          title="Settings"
+        >
+          <FaCog className="nav-icon" />
+          <span className="nav-label">Settings</span>
+        </button>
+      </nav>
+
+      <div className="sidebar-footer">
+        {user && (
+          <div className="user-info" title={user.email}>
+            <span className="user-avatar">
+              {user.fullName.charAt(0).toUpperCase()}
+            </span>
+            <span className="user-name">{user.fullName}</span>
+          </div>
+        )}
+        
+        <button
+          className="nav-item logout-btn"
+          onClick={handleLogout}
+          title="Logout"
+        >
+          <FaSignOutAlt className="nav-icon" />
+          <span className="nav-label">Logout</span>
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default Sidebar;

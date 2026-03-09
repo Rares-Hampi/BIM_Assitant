@@ -11,6 +11,20 @@ interface Project {
   id: string;
   name: string;
   description?: string;
+  files?: BIMFile[];
+}
+
+interface BIMFile {
+  id: string;
+  fileName: string;
+  originalName: string;
+  status: string;
+  convertedModels?: {
+    category: string;
+    glb_path: string;
+    json_path: string;
+    element_count: number;
+  }[];
 }
 
 const ProjectViewPage = () => {
@@ -28,19 +42,20 @@ const ProjectViewPage = () => {
   });
 
   useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const response = await api.get(`projects/${projectId}`);
+        console.log('Project data:', response.data);
+        setProject(response.data.data.project);
+      } catch (error) {
+        console.error('Failed to fetch project:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
     fetchProject();
   }, [projectId]);
-
-  const fetchProject = async () => {
-    try {
-      const response = await api.get(`projects/${projectId}`);
-      setProject(response.data.project);
-    } catch (error) {
-      console.error('Failed to fetch project:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleToggleModel = (modelName: string) => {
     setModelVisibility(prev => ({
@@ -51,6 +66,37 @@ const ProjectViewPage = () => {
 
   const handleResetView = () => {
     canvasRef.current?.resetView();
+  };
+
+  // Build models array from project files
+  const getModelsFromProject = () => {
+    if (!project?.files || project.files.length === 0) return [];
+    
+    const categoryColors: Record<string, string> = {
+      walls: '#000000',
+      slabs: '#808080',
+      ducts: '#A9A9A9',
+      pipes: '#0000FF',
+      electrical: '#FFD700',
+      others: '#808080',
+    };
+    
+    const models: { category: string; url: string; color: string }[] = [];
+    
+    project.files.forEach(file => {
+      if (file.status === 'completed' && file.convertedModels) {
+        file.convertedModels.forEach(model => {
+          const minioUrl = `${import.meta.env.VITE_MINIO_URL}/bim-converted-models/${model.glb_path}`;
+          models.push({
+            category: model.category,
+            url: minioUrl,
+            color: categoryColors[model.category] || '#808080'
+          });
+        });
+      }
+    });
+    
+    return models;
   };
 
   if (loading) {
@@ -81,6 +127,7 @@ const ProjectViewPage = () => {
           <Canvas3D 
             ref={canvasRef} 
             modelVisibility={modelVisibility}
+            models={getModelsFromProject()}
           />
           
           <ClashReport />

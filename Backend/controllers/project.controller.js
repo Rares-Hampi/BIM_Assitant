@@ -23,6 +23,15 @@ const getAllProjects = async (req, res, next) => {
     const projects = await prisma.project.findMany({
       where,
       include: {
+        files: {
+          select: {
+            id: true,
+            status: true,
+            originalName: true,
+            convertedPath: true,
+            createdAt: true
+          }
+        },
         _count: {
           select: {
             files: true,
@@ -35,10 +44,19 @@ const getAllProjects = async (req, res, next) => {
       }
     });
     
+    // Transform projects to include parsed convertedModels count
+    const transformedProjects = projects.map(project => ({
+      ...project,
+      files: project.files.map(file => ({
+        ...file,
+        convertedModels: file.convertedPath ? JSON.parse(file.convertedPath).length : null
+      }))
+    }));
+    
     res.status(200).json({
       success: true,
       data: {
-        projects,
+        projects: transformedProjects,
         count: projects.length
       }
     });
@@ -123,10 +141,28 @@ const getProjectById = async (req, res, next) => {
       throw new AppError('Access denied. You do not own this project.', 403);
     }
     
+    // Convert BigInt fields to strings for JSON serialization
+    const serializedProject = {
+      ...project,
+      files: project.files.map(file => ({
+        ...file,
+        fileSize: file.fileSize.toString(),
+        // Parse convertedPath JSON if it exists
+        convertedModels: file.convertedPath ? JSON.parse(file.convertedPath) : null
+      })),
+      clashReports: project.clashReports.map(report => ({
+        ...report,
+        totalClashes: report.totalClashes.toString(),
+        criticalClashes: report.criticalClashes.toString(),
+        majorClashes: report.majorClashes.toString(),
+        minorClashes: report.minorClashes.toString()
+      }))
+    };
+    
     res.status(200).json({
       success: true,
       data: {
-        project
+        project: serializedProject
       }
     });
     

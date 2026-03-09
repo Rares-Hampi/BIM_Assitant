@@ -73,7 +73,11 @@ const uploadFiles = async (req, res, next) => {
         originalName: file.originalname
       });
       
-      uploadedFiles.push(bimFile);
+      // Convert BigInt fields to strings for JSON serialization
+      uploadedFiles.push({
+        ...bimFile,
+        fileSize: bimFile.fileSize.toString()
+      });
     }
     
     res.status(201).json({

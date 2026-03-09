@@ -87,7 +87,7 @@ const publishConversionJob = async (job) => {
       fileId: job.fileId,
       projectId: job.projectId,
       userId: job.userId,
-      storagePath: job.storagePath,
+      tempPath: job.tempPath,
       originalName: job.originalName,
       timestamp: new Date().toISOString()
     };

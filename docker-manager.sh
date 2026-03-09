@@ -127,15 +127,8 @@ show_urls() {
     echo "  Frontend:        http://localhost:5173"
     echo "  Backend API:     http://localhost:3000"
     echo "  MinIO Console:   http://localhost:9001"
-    echo "    ├─ Username:   minioadmin"
-    echo "    └─ Password:   minioadmin123"
     echo "  PostgreSQL:      localhost:5432"
-    echo "    ├─ Database:   bim_assistant"
-    echo "    ├─ Username:   bim_user"
-    echo "    └─ Password:   bim_password"
     echo "  RabbitMQ UI:     http://localhost:15672"
-    echo "    ├─ Username:   admin"
-    echo "    └─ Password:   rabbitmq_password"
     echo ""
 }
 

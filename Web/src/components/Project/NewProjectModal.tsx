@@ -1,6 +1,7 @@
 import { useState, useRef, type FormEvent } from 'react';
 import { FaFileUpload, FaTimes } from 'react-icons/fa';
 import api from '../../services/api';
+import UploadProgressModal from './UploadProgressModal';
 import './NewProjectModal.css';
 
 interface Project {
@@ -19,6 +20,9 @@ const NewProjectModal = ({ onClose, onProjectCreated }: NewProjectModalProps) =>
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+  const [uploadedFileId, setUploadedFileId] = useState<string | null>(null);
+  const [uploadedProjectId, setUploadedProjectId] = useState<string | null>(null);
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,23 +87,37 @@ const NewProjectModal = ({ onClose, onProjectCreated }: NewProjectModalProps) =>
         description: `Project with ${files.length} file(s)`
       });
       
-      const project = projectResponse.data.project;
+      const project = projectResponse.data.data.project;
 
       // 2. Upload files
-      for (const file of files) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('projectId', project.id);
+      const formData = new FormData();
+      formData.append('projectId', project.id);
+      
+      // Add all files to FormData (backend expects 'files' array)
+      files.forEach(file => {
+        formData.append('files', file);
+      });
 
-        await api.post('upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+      const uploadResponse = await api.post('upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log('Upload response:', uploadResponse.data);
+
+      // Get the first uploaded file for progress tracking
+      const uploadedFiles = uploadResponse.data.data.files;
+      if (uploadedFiles && uploadedFiles.length > 0) {
+        setUploadedFileId(uploadedFiles[0].id);
+        setUploadedProjectId(project.id);
+        setUploadedFileName(uploadedFiles[0].originalName);
+        // Don't call onProjectCreated here - let UploadProgressModal handle navigation
+      } else {
+        onProjectCreated(project);
       }
-
-      onProjectCreated(project);
     } catch (err) {
+      console.error('Error creating project:', err);
       const error = err as { response?: { data?: { message?: string } } };
       setError(error.response?.data?.message || 'Failed to create project');
       setUploading(false);
@@ -194,6 +212,21 @@ const NewProjectModal = ({ onClose, onProjectCreated }: NewProjectModalProps) =>
           </div>
         </form>
       </div>
+      
+      {/* Progress Modal */}
+      {uploadedFileId && uploadedProjectId && uploadedFileName && (
+        <UploadProgressModal
+          fileId={uploadedFileId}
+          projectId={uploadedProjectId}
+          fileName={uploadedFileName}
+          onClose={() => {
+            setUploadedFileId(null);
+            setUploadedProjectId(null);
+            setUploadedFileName(null);
+            onClose();
+          }}
+        />
+      )}
     </div>
   );
 };

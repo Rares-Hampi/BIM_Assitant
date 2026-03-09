@@ -10,7 +10,17 @@ interface Project {
   name: string;
   description?: string;
   createdAt: string;
-  filesCount?: number;
+  files?: Array<{
+    id: string;
+    status: string;
+    originalName: string;
+    convertedModels: number | null;
+    createdAt: string;
+  }>;
+  _count?: {
+    files: number;
+    clashReports: number;
+  };
 }
 
 const ProjectsPage = () => {
@@ -21,12 +31,14 @@ const ProjectsPage = () => {
 
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, []); // Refetch when projects length changes (e.g., after creating a new project)
 
   const fetchProjects = async () => {
     try {
       const response = await api.get('projects');
-      setProjects(response.data.projects || []);
+      console.log('Projects response:', response.data);
+      setProjects(response.data.data.projects || []);
+      console.log('Fetched projects count:', response.data.data.projects?.length);
     } catch (error) {
       console.error('Failed to fetch projects:', error);
     } finally {
@@ -38,8 +50,12 @@ const ProjectsPage = () => {
     navigate(`/projects/${projectId}`);
   };
 
-  const handleProjectCreated = (newProject: Project) => {
-    setProjects([newProject, ...projects]);
+  const handleProjectCreated = (newProject: Omit<Project, 'createdAt'> & { createdAt?: string }) => {
+    const projectWithTimestamp: Project = {
+      ...newProject,
+      createdAt: newProject.createdAt || new Date().toISOString(),
+    };
+    setProjects([projectWithTimestamp, ...projects]);
     setShowModal(false);
     // Navigate to the new project
     navigate(`/projects/${newProject.id}`);
@@ -97,13 +113,13 @@ const ProjectsPage = () => {
                   <p className="project-description">{project.description}</p>
                 )}
                 <div className="project-meta">
-                  <span>{project.filesCount || 0} files</span>
+                  <span>{project.files?.reduce((acc, file) => acc + (file.convertedModels || 0), 0) || 0} files</span>
                   <span>{new Date(project.createdAt).toLocaleDateString()}</span>
                 </div>
               </div>
             ))}
           </div>
-        )}
+        )}  
       </div>
 
       {showModal && (

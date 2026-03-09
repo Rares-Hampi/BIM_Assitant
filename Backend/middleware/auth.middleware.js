@@ -9,17 +9,22 @@ const prisma = getPrismaClient();
  */
 const authenticate = async (req, res, next) => {
   try {
-    // Get token from Authorization header
+    // Get token from Authorization header OR query parameter (for SSE)
     const authHeader = req.headers.authorization;
+    const queryToken = req.query.token;
     
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    let token;
+    
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    } else if (queryToken) {
+      token = queryToken; // For SSE connections
+    } else {
       return res.status(401).json({
         success: false,
         message: 'No token provided. Please login first.'
       });
     }
-    
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
     
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

@@ -6,6 +6,11 @@ import './Canvas3D.css';
 
 interface Canvas3DProps {
     modelVisibility: Record<string, boolean>;
+    models?: {
+        category: string;
+        url: string;
+        color: string;
+    }[];
 }
 
 export interface Canvas3DHandle {
@@ -19,18 +24,31 @@ interface ModelInfo {
     group: THREE.Group | null;
 }
 
-const Canvas3D = forwardRef<Canvas3DHandle, Canvas3DProps>(({ modelVisibility }, ref) => {
+const Canvas3D = forwardRef<Canvas3DHandle, Canvas3DProps>(({ modelVisibility, models }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const sceneRef = useRef<THREE.Scene | null>(null);
     const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
     const controlsRef = useRef<OrbitControls | null>(null);
-    const modelsRef = useRef<ModelInfo[]>([
-        { name: 'structural', fileName: 'others.glb', color: '#808080', group: null },
-        { name: 'walls', fileName: 'walls.glb', color: '#000000', group: null },
-        { name: 'ducts', fileName: 'ducts.glb', color: '#A9A9A9', group: null },
-        { name: 'electrical', fileName: 'electrical.glb', color: '#FFD700', group: null },
-        { name: 'pipes', fileName: 'pipes.glb', color: '#0000FF', group: null },
-    ]);
+    
+    // Default models for backward compatibility
+    const defaultModels = [
+        { category: 'structural', url: '/output_web/others.glb', color: '#808080' },
+        { category: 'walls', url: '/output_web/walls.glb', color: '#000000' },
+        { category: 'ducts', url: '/output_web/ducts.glb', color: '#A9A9A9' },
+        { category: 'electrical', url: '/output_web/electrical.glb', color: '#FFD700' },
+        { category: 'pipes', url: '/output_web/pipes.glb', color: '#0000FF' },
+    ];
+    
+    const modelsToLoad = models && models.length > 0 ? models : defaultModels;
+    console.log(models && models.length > 0 ? 'Loading models from MinIO' : 'Loading default models', modelsToLoad);
+    const modelsRef = useRef<ModelInfo[]>(
+        modelsToLoad.map(m => ({
+            name: m.category,
+            fileName: m.url,
+            color: m.color,
+            group: null
+        }))
+    );
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -81,7 +99,7 @@ const Canvas3D = forwardRef<Canvas3DHandle, Canvas3DProps>(({ modelVisibility },
         const totalModels = modelsRef.current.length;
 
         modelsRef.current.forEach((modelInfo, index) => {
-            const modelPath = `/output_web/${modelInfo.fileName}`;
+            const modelPath = modelInfo.fileName; // Now this is the full URL from MinIO or local path
             
             loader.load(
                 modelPath,
@@ -206,7 +224,7 @@ const Canvas3D = forwardRef<Canvas3DHandle, Canvas3DProps>(({ modelVisibility },
     }));
 
     return (
-        <div className="canvas-container">
+        <div className="canvas-container" style={{ marginLeft: "420px" }}>
             <div ref={containerRef} className="canvas-3d" />
         </div>
     );

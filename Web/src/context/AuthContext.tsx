@@ -10,11 +10,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Check for stored token on mount
     const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
     
-    if (storedToken && storedUser) {
+    if (storedToken) {
       setToken(storedToken);
-      setUser(JSON.parse(storedUser));
       api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
     }
     
@@ -47,7 +45,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     
     localStorage.setItem('token', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
-    localStorage.setItem('user', JSON.stringify(newUser));
     
     api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   };

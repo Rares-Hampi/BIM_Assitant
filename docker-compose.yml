@@ -80,6 +80,7 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+      - "5555:5555"  # Prisma Studio
     environment:
       NODE_ENV: development
       PORT: 3000
@@ -89,6 +90,7 @@ services:
       DB_NAME: bim_assistant
       DB_USER: bim_user
       DB_PASSWORD: bim_password
+      DATABASE_URL: postgresql://bim_user:bim_password@postgres:5432/bim_assistant
       # RabbitMQ
       RABBITMQ_URL: amqp://admin:rabbitmq_password@rabbitmq:5672
       RABBITMQ_QUEUE: conversion_queue
@@ -127,7 +129,7 @@ services:
     environment:
       # RabbitMQ
       RABBITMQ_URL: amqp://admin:rabbitmq_password@rabbitmq:5672
-      RABBITMQ_QUEUE: conversion_queue
+      RABBITMQ_QUEUE: bim.conversion
       # Database
       DB_HOST: postgres
       DB_PORT: 5432
@@ -139,7 +141,7 @@ services:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin123
       MINIO_USE_SSL: "false"
-      MINIO_BUCKET: bim-files
+      MINIO_BUCKET: bim-converted-models
     volumes:
       - ./Backend/python:/app
       - ./Backend/uploads:/app/uploads
@@ -153,7 +155,7 @@ services:
       minio:
         condition: service_healthy
     deploy:
-      replicas: 3  # 3 parallel workers
+      replicas: 1  # 1 worker for testing (change to 3 for production)
 
   # ═══════════════════════════════════════════════════════
   # Frontend Service (React + Vite)

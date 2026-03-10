@@ -103,11 +103,14 @@ services:
       MINIO_BUCKET: bim-files
       # JWT
       JWT_SECRET: your_jwt_secret_change_in_production
+      # Docker (for auto-starting workers)
+      DOCKER_HOST: unix:///var/run/docker.sock
     volumes:
       - ./Backend:/app
       - /app/node_modules
       - ./Backend/uploads:/app/uploads
       - ./Backend/output_web:/app/output_web
+      - /var/run/docker.sock:/var/run/docker.sock  # Docker socket for worker management
     networks:
       - bim_network
     depends_on:
@@ -122,6 +125,7 @@ services:
   # Conversion Workers (Python + IfcOpenShell)
   # ═══════════════════════════════════════════════════════
   worker:
+    profiles: ["workers"]  # Only start when 'workers' profile is active
     build:
       context: ./Backend/workers/python
       dockerfile: Dockerfile
@@ -155,7 +159,46 @@ services:
       minio:
         condition: service_healthy
     deploy:
-      replicas: 1  # 1 worker for testing (change to 3 for production)
+      replicas: 1  # 1 workers for testing (change to 3 for production)
+
+  # ═══════════════════════════════════════════════════════
+  # Clash Detection Workers (Python + Trimesh)
+  # ═══════════════════════════════════════════════════════
+  clash-worker:
+    profiles: ["workers"]  # Only start when 'workers' profile is active
+    build:
+      context: ./Backend/workers/python
+      dockerfile: Dockerfile.clash
+    restart: unless-stopped
+    environment:
+      # RabbitMQ
+      RABBITMQ_URL: amqp://admin:rabbitmq_password@rabbitmq:5672
+      RABBITMQ_CLASH_QUEUE: bim.clash-detection
+      # Database
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: bim_assistant
+      DB_USER: bim_user
+      DB_PASSWORD: bim_password
+      # MinIO
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin123
+      MINIO_USE_SSL: "false"
+      MINIO_BUCKET: bim-converted-models
+    volumes:
+      - ./Backend/python:/app
+    networks:
+      - bim_network
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    deploy:
+      replicas: 1  # 1 worker for clash detection
 
   # ═══════════════════════════════════════════════════════
   # Frontend Service (React + Vite)

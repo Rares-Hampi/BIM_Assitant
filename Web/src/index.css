@@ -5,16 +5,99 @@
 }
 
 :root {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  line-height: 1.5;
+  /* Typography */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  line-height: 1.6;
   font-weight: 400;
-  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Color System - BIM Assistant Design */
+  
+  /* Primary Colors */
+  --navy-deep: #1B2631;
+  --slate-gray: #F4F7F6;
+  --off-white: #FAFBFC;
+  
+  /* Accent Colors */
+  --electric-blue: #3498DB;
+  --electric-blue-hover: #2980B9;
+  --electric-blue-light: #5DADE2;
+  
+  /* Status Colors */
+  --forest-green: #27AE60;
+  --forest-green-hover: #229954;
+  --forest-green-light: #52BE80;
+  
+  /* Clash Severity Colors */
+  --clash-critical: #E74C3C;
+  --clash-critical-hover: #C0392B;
+  --clash-major: #E67E22;
+  --clash-major-hover: #D35400;
+  --clash-resolved: #1ABC9C;
+  --clash-resolved-hover: #16A085;
+  --clash-review: #9B59B6;
+  --clash-review-hover: #8E44AD;
+  
+  /* Neutral Colors */
+  --gray-50: #F8F9FA;
+  --gray-100: #E9ECEF;
+  --gray-200: #DEE2E6;
+  --gray-300: #CED4DA;
+  --gray-400: #ADB5BD;
+  --gray-500: #6C757D;
+  --gray-600: #495057;
+  --gray-700: #343A40;
+  --gray-800: #212529;
+  --gray-900: #1A1D20;
+  
+  /* Semantic Colors */
+  --color-background: var(--off-white);
+  --color-surface: #FFFFFF;
+  --color-toolbar: var(--navy-deep);
+  --color-sidebar: var(--slate-gray);
+  --color-text-primary: var(--gray-800);
+  --color-text-secondary: var(--gray-600);
+  --color-text-inverse: #FFFFFF;
+  --color-border: var(--gray-200);
+  --color-border-light: var(--gray-100);
+  
+  /* Interactive States */
+  --color-primary: var(--electric-blue);
+  --color-primary-hover: var(--electric-blue-hover);
+  --color-success: var(--forest-green);
+  --color-success-hover: var(--forest-green-hover);
+  --color-danger: var(--clash-critical);
+  --color-danger-hover: var(--clash-critical-hover);
+  --color-warning: var(--clash-major);
+  --color-warning-hover: var(--clash-major-hover);
+  
+  /* Spacing System */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
 }
 
 body {
@@ -28,4 +111,6 @@ button {
   cursor: pointer;
   font-family: inherit;
 }
+
+
 

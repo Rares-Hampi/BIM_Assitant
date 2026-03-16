@@ -1,7 +1,7 @@
 import { useState, useRef, type FormEvent } from 'react';
 import { FaFileUpload, FaTimes } from 'react-icons/fa';
 import api from '../../services/api';
-import UploadProgressModal from './UploadProgressModal';
+import BatchUploadProgressModal from './BatchUploadProgressModal';
 import './NewProjectModal.css';
 
 interface Project {
@@ -20,9 +20,7 @@ const NewProjectModal = ({ onClose, onProjectCreated }: NewProjectModalProps) =>
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
-  const [uploadedFileId, setUploadedFileId] = useState<string | null>(null);
   const [uploadedProjectId, setUploadedProjectId] = useState<string | null>(null);
-  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,13 +104,11 @@ const NewProjectModal = ({ onClose, onProjectCreated }: NewProjectModalProps) =>
 
       console.log('Upload response:', uploadResponse.data);
 
-      // Get the first uploaded file for progress tracking
+      // Show batch progress modal for all uploaded files
       const uploadedFiles = uploadResponse.data.data.files;
       if (uploadedFiles && uploadedFiles.length > 0) {
-        setUploadedFileId(uploadedFiles[0].id);
         setUploadedProjectId(project.id);
-        setUploadedFileName(uploadedFiles[0].originalName);
-        // Don't call onProjectCreated here - let UploadProgressModal handle navigation
+        // Don't call onProjectCreated here - let BatchUploadProgressModal handle navigation
       } else {
         onProjectCreated(project);
       }
@@ -213,16 +209,12 @@ const NewProjectModal = ({ onClose, onProjectCreated }: NewProjectModalProps) =>
         </form>
       </div>
       
-      {/* Progress Modal */}
-      {uploadedFileId && uploadedProjectId && uploadedFileName && (
-        <UploadProgressModal
-          fileId={uploadedFileId}
+      {/* Batch Progress Modal */}
+      {uploadedProjectId && (
+        <BatchUploadProgressModal
           projectId={uploadedProjectId}
-          fileName={uploadedFileName}
           onClose={() => {
-            setUploadedFileId(null);
             setUploadedProjectId(null);
-            setUploadedFileName(null);
             onClose();
           }}
         />

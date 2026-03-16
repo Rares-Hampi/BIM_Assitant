@@ -5,14 +5,20 @@ interface VisualControlsProps {
     onToggleModel: (modelName: string) => void;
     modelVisibility: Record<string, boolean>;
     onResetView: () => void;
+    availableModels?: {
+        name: string;
+        label: string;
+        color: string;
+    }[];
 }
 
 const VisualControls: React.FC<VisualControlsProps> = ({ 
     onToggleModel, 
     modelVisibility,
-    onResetView 
+    onResetView,
+    availableModels
 }) => {
-    const models = [
+    const models = availableModels || [
         { name: 'structural', label: 'Structural', color: '#808080' },
         { name: 'walls', label: 'Walls', color: '#000000' },
         { name: 'ducts', label: 'Sanitar', color: '#A9A9A9' },

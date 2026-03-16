@@ -40,6 +40,6 @@
 }
 
 .clash-category.active {
-    background: #3b82f6;
+    background: var(--electric-blue, #3498DB);
     color: white;
 }

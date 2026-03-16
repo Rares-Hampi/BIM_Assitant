@@ -8,7 +8,7 @@ let channel = null;
  */
 const QUEUES = {
   CONVERSION: 'bim.conversion',      // IFC to GLB conversion jobs
-  CLASH_DETECTION: 'bim.clash',      // Clash detection jobs
+  CLASH_DETECTION: 'bim.clash-detection',      // Clash detection jobs
   CLEANUP: 'bim.cleanup'             // Cleanup jobs (delete old files)
 };
 

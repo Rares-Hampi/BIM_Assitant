@@ -207,7 +207,121 @@ const streamBatchProgress = async (req, res, next) => {
   }
 };
 
+/**
+ * Server-Sent Events for clash detection progress
+ * GET /api/progress/clash/:reportId
+ */
+const streamClashProgress = async (req, res, next) => {
+  try {
+    const { reportId } = req.params;
+    
+    // Verify report exists and user owns it
+    const report = await prisma.clashReport.findUnique({
+      where: { id: reportId }
+    });
+    
+    if (!report) {
+      return res.status(404).json({
+        success: false,
+        message: 'Report not found'
+      });
+    }
+    
+    if (report.userId !== req.userId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied'
+      });
+    }
+    
+    // Set SSE headers
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Accel-Buffering', 'no');
+    
+    // Send initial connection message
+    res.write(`data: ${JSON.stringify({
+      type: 'connected',
+      reportId,
+      message: 'Clash progress stream connected'
+    })}\n\n`);
+    
+    // Poll database for progress updates
+    const intervalId = setInterval(async () => {
+      try {
+        const updatedReport = await prisma.clashReport.findUnique({
+          where: { id: reportId },
+          select: {
+            status: true,
+            progress: true,
+            statusMessage: true,
+            totalClashes: true,
+            criticalClashes: true,
+            majorClashes: true,
+            minorClashes: true
+          }
+        });
+        
+        if (!updatedReport) {
+          clearInterval(intervalId);
+          res.end();
+          return;
+        }
+        
+        // Send progress update
+        res.write(`data: ${JSON.stringify({
+          type: 'progress',
+          reportId,
+          status: updatedReport.status,
+          progress: updatedReport.progress,
+          message: updatedReport.statusMessage || 'Processing...',
+          totalClashes: updatedReport.totalClashes,
+          criticalClashes: updatedReport.criticalClashes,
+          majorClashes: updatedReport.majorClashes,
+          minorClashes: updatedReport.minorClashes
+        })}\n\n`);
+        
+        // If completed or failed, close connection
+        if (updatedReport.status === 'completed' || updatedReport.status === 'failed') {
+          clearInterval(intervalId);
+          
+          res.write(`data: ${JSON.stringify({
+            type: updatedReport.status === 'completed' ? 'done' : 'error',
+            reportId,
+            status: updatedReport.status,
+            progress: updatedReport.progress,
+            message: updatedReport.statusMessage,
+            error: updatedReport.status === 'failed' ? updatedReport.statusMessage : null,
+            totalClashes: updatedReport.totalClashes,
+            criticalClashes: updatedReport.criticalClashes,
+            majorClashes: updatedReport.majorClashes,
+            minorClashes: updatedReport.minorClashes
+          })}\n\n`);
+          
+          res.end();
+        }
+        
+      } catch (error) {
+        console.error('Clash progress polling error:', error);
+        clearInterval(intervalId);
+        res.end();
+      }
+    }, 2000); // Poll every 2 seconds
+    
+    req.on('close', () => {
+      console.log(`Client disconnected from clash progress stream for report ${reportId}`);
+      clearInterval(intervalId);
+      res.end();
+    });
+    
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   streamFileProgress,
-  streamBatchProgress
+  streamBatchProgress,
+  streamClashProgress
 };

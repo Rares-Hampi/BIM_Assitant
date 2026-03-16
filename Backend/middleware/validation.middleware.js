@@ -195,8 +195,8 @@ const validateClashReportGeneration = (req, res, next) => {
   // Validate fileIds
   if (!fileIds || !Array.isArray(fileIds)) {
     errors.push('File IDs array is required');
-  } else if (fileIds.length < 2) {
-    errors.push('At least 2 files are required for clash detection');
+  } else if (fileIds.length < 1) {
+    errors.push('At least 1 file is required for clash detection');
   } else if (fileIds.some(id => typeof id !== 'string')) {
     errors.push('All file IDs must be strings');
   }

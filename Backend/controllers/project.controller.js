@@ -1,5 +1,6 @@
 const { getPrismaClient } = require('../utils/database');
 const { AppError } = require('../middleware/error.middleware');
+const { getMinioClient } = require('../services/storage.service');
 
 const prisma = getPrismaClient();
 
@@ -227,7 +228,10 @@ const deleteProject = async (req, res, next) => {
     
     // Check if project exists and user owns it
     const project = await prisma.project.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        files: true  // Get all files to delete from MinIO
+      }
     });
     
     if (!project) {
@@ -238,12 +242,32 @@ const deleteProject = async (req, res, next) => {
       throw new AppError('Access denied. You do not own this project.', 403);
     }
     
-    // Delete project (cascade will delete files and reports)
+    // Delete all files from MinIO for this project
+    try {
+      const minioClient = getMinioClient();
+      const bucket = process.env.MINIO_BUCKET || 'bim-converted-models';
+      
+      // Delete entire project folder from MinIO
+      const objectsToDelete = [];
+      const objectsStream = minioClient.listObjects(bucket, `${id}/`, true);
+      
+      for await (const obj of objectsStream) {
+        objectsToDelete.push(obj.name);
+      }
+      
+      if (objectsToDelete.length > 0) {
+        await minioClient.removeObjects(bucket, objectsToDelete);
+        console.log(`Deleted ${objectsToDelete.length} objects from MinIO for project ${id}`);
+      }
+    } catch (minioError) {
+      console.error('Error deleting files from MinIO:', minioError);
+      // Continue with database deletion even if MinIO cleanup fails
+    }
+    
+    // Delete project (cascade will delete files and reports via Prisma schema)
     await prisma.project.delete({
       where: { id }
     });
-    
-    // TODO: Delete files from MinIO storage
     
     res.status(200).json({
       success: true,

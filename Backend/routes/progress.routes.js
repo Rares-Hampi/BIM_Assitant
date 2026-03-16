@@ -13,4 +13,7 @@ router.get('/:fileId', validateUUID('fileId'), progressController.streamFileProg
 // GET /api/progress/batch/:projectId - SSE for multiple files in a project
 router.get('/batch/:projectId', validateUUID('projectId'), progressController.streamBatchProgress);
 
+// GET /api/progress/clash/:reportId - SSE for clash detection progress
+router.get('/clash/:reportId', validateUUID('reportId'), progressController.streamClashProgress);
+
 module.exports = router;

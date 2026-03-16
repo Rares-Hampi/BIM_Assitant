@@ -1,0 +1,15 @@
+.field-error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  margin-left: 0.25rem;
+}
+
+.input-wrapper input.error {
+  border-color: #dc2626;
+}
+
+.input-wrapper input.error:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}

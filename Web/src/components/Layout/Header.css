@@ -1,0 +1,62 @@
+.auth-header {
+  padding: 1.5rem 2rem;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.auth-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #111827;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: #111827;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: white;
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #111827;
+  text-decoration: none;
+}
+
+.auth-header-link {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.auth-header-link a {
+  color: #111827;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 0.5rem;
+  
+}
+
+a{
+text-decoration: none ;
+}
+
+.auth-header-link a:hover {
+  color: #3498DB;
+}

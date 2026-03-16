@@ -1,55 +1,68 @@
 import { useNavigate } from 'react-router-dom';
-import { FaCheckCircle } from 'react-icons/fa';
-import Sidebar from '../components/Layout/Sidebar';
+import AuthHeader from '../components/Layout/Header';
 import './HomePage.css';
+import { useAuth } from '../hooks/useAuth';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   return (
     <div className="home-page">
-      <Sidebar />
+      {/* Header */}
+      <AuthHeader 
+        isButton={true}
+        buttonText={user ? "Projects" : "Login"}
+        onButtonClick={() => navigate(user ? '/projects' : '/login')}
+      />
 
-      <div className="home-content">
-        <div className="home-hero">
-          <h1 className="hero-title">
-            Lorem ipsum is simply<br />
-            dummy text of the printing
-          </h1>
-          
-          <div className="hero-badge">
-            <FaCheckCircle className="badge-icon" />
-            <span className="badge-text">Detectie clash-uri in timp real</span>
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-content">
+          <div className="hero-left">
+            <div className="hero-tag">
+              <span className="tag-dot"></span>
+               BIM ASSISTANT
+            </div>
+            
+            <h1 className="hero-title">
+              Advanced BIM<br />
+              Conversion &<br />
+              Clash<br />
+              Detection
+            </h1>
+            
+            <p className="hero-description">
+              Transform complex architectural designs into high-fidelity 3D models with our advanced conversion and automated clash detection engine.
+            </p>
+            
+            <div className="hero-actions">
+              <button className="btn-primary" onClick={() => navigate('/register')}>
+                Get Started
+              </button>
+             
+            </div>
           </div>
           
-          <p className="hero-subtitle">Afisare modele</p>
-
-          <div className="hero-mockup">
-            {/* Mockup illustration area */}
-            <div className="mockup-placeholder">
-              <div className="mockup-screens">
-                <div className="mockup-screen mockup-screen-1"></div>
-                <div className="mockup-screen mockup-screen-2"></div>
+          <div className="hero-right">
+            <div className="hero-image-container">
+              <img 
+                src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=800" 
+                alt="Architect working on plans" 
+                className="hero-image"
+              />
+              <div className="hero-card">
+                <div className="card-label">ACTIVE MODEL</div>
+                <div className="card-title">Skyline Plaza_V4</div>
+                <div className="card-badges">
+                  <span className="badge">Files: 4</span>
+                  <span className="badge">Clashes: 12</span>
+                </div>
               </div>
             </div>
           </div>
-
-          <div className="hero-actions">
-            <button 
-              className="btn btn-primary"
-              onClick={() => navigate('/login')}
-            >
-              Get Started
-            </button>
-            <button 
-              className="btn btn-secondary"
-              onClick={() => navigate('/register')}
-            >
-              Sign Up
-            </button>
-          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

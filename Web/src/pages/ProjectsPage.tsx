@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Layout/Sidebar';
-import NewProjectModal from '../components/Project/NewProjectModal';
-import api from '../services/api';
-import './ProjectsPage.css';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiPlus, FiTrash2, FiHome, FiClock } from "react-icons/fi";
+import NewProjectModal from "../components/Project/NewProjectModal";
+import api from "../services/api";
+import "./ProjectsPage.css";
+import Header from "../components/Layout/Header";
 
 interface Project {
   id: string;
@@ -35,12 +36,15 @@ const ProjectsPage = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await api.get('projects');
-      console.log('Projects response:', response.data);
+      const response = await api.get("projects");
+      console.log("Projects response:", response.data);
       setProjects(response.data.data.projects || []);
-      console.log('Fetched projects count:', response.data.data.projects?.length);
+      console.log(
+        "Fetched projects count:",
+        response.data.data.projects?.length,
+      );
     } catch (error) {
-      console.error('Failed to fetch projects:', error);
+      console.error("Failed to fetch projects:", error);
     } finally {
       setLoading(false);
     }
@@ -50,7 +54,9 @@ const ProjectsPage = () => {
     navigate(`/projects/${projectId}`);
   };
 
-  const handleProjectCreated = (newProject: Omit<Project, 'createdAt'> & { createdAt?: string }) => {
+  const handleProjectCreated = (
+    newProject: Omit<Project, "createdAt"> & { createdAt?: string },
+  ) => {
     const projectWithTimestamp: Project = {
       ...newProject,
       createdAt: newProject.createdAt || new Date().toISOString(),
@@ -61,74 +67,126 @@ const ProjectsPage = () => {
     navigate(`/projects/${newProject.id}`);
   };
 
-  return (
-    <div className="projects-page">
-      <Sidebar />
-      
-      <div className="projects-content">
-        <div className="projects-header">
-          <h1>My Projects</h1>
-          <button 
-            className="btn btn-primary"
-            onClick={() => setShowModal(true)}
-          >
-            + New Project
-          </button>
-        </div>
+  const handleDeleteProject = async (
+    projectId: string,
+    projectName: string,
+    event: React.MouseEvent,
+  ) => {
+    // Stop propagation to prevent navigating to project
+    event.stopPropagation();
 
-        {loading ? (
-          <div className="projects-loading">Loading projects...</div>
-        ) : projects.length === 0 ? (
-          <div className="projects-empty">
-            <div className="empty-icon">
-              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-              </svg>
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${projectName}"?\n\nThis will permanently delete:\n- All files in this project\n- All converted models\n- All clash reports\n\nThis action cannot be undone.`,
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await api.delete(`projects/${projectId}`);
+
+      // Remove project from state
+      setProjects(projects.filter((p) => p.id !== projectId));
+
+      // Show success message
+      alert("Project deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete project:", error);
+      alert("Failed to delete project. Please try again.");
+    }
+  };
+
+  return (
+    <>
+    <Header isButton={true} buttonText="Log out" />
+      <div className="projects-page">
+        <div className="projects-content">
+          <div className="projects-header">
+            <div className="projects-title-section">
+              <h1>My Projects</h1>
+              <p className="projects-subtitle">
+                Manage and monitor your ongoing construction models.
+              </p>
             </div>
-            <h2>No Projects Yet</h2>
-            <p>Create your first project to get started</p>
-            <button 
+            <button
               className="btn btn-primary"
               onClick={() => setShowModal(true)}
             >
-              Create Project
+              + New Project
             </button>
           </div>
-        ) : (
-          <div className="projects-grid">
-            {projects.map((project) => (
-              <div 
-                key={project.id}
-                className="project-card"
-                onClick={() => handleProjectClick(project.id)}
-              >
-                <div className="project-icon">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                  </svg>
-                </div>
-                <h3>{project.name}</h3>
-                {project.description && (
-                  <p className="project-description">{project.description}</p>
-                )}
-                <div className="project-meta">
-                  <span>{project.files?.reduce((acc, file) => acc + (file.convertedModels || 0), 0) || 0} files</span>
-                  <span>{new Date(project.createdAt).toLocaleDateString()}</span>
+
+          {loading ? (
+            <div className="projects-loading">Loading projects...</div>
+          ) : projects.length === 0 ? (
+            <div className="projects-grid">
+              <div className="project-card new-project-card">
+                <div className="new-project-content">
+                  <FiPlus size={48} />
+                  <p>CREATE NEW PROJECT</p>
                 </div>
               </div>
-            ))}
-          </div>
-        )}  
-      </div>
+            </div>
+          ) : (
+            <div className="projects-grid">
+              {projects.map((project) => (
+                <div
+                  key={project.id}
+                  className="project-card"
+                  onClick={() => handleProjectClick(project.id)}
+                >
+                  <button
+                    className="delete-project-btn"
+                    onClick={(e) =>
+                      handleDeleteProject(project.id, project.name, e)
+                    }
+                    title="Delete project"
+                  >
+                    <FiTrash2 size={18} />
+                  </button>
+                  <div className="project-info">
+                    <h3>{project.name}</h3>
+                    {project.description && (
+                      <p className="project-description">
+                        {project.description}
+                      </p>
+                    )}
+                    <div className="project-meta">
+                      <div className="meta-item">
+                        <FiHome size={16} />
+                        <span>{project._count?.files || 0} Files</span>
+                      </div>
+                      <div className="meta-item">
+                        <FiClock size={16} />
+                        <span>{project._count?.clashReports || 0} Clashes</span>
+                      </div>
+                    </div>
+                    <p className="project-date">
+                      Created {new Date(project.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              <div
+                className="project-card new-project-card"
+                onClick={() => setShowModal(true)}
+              >
+                <div className="new-project-content">
+                  <FiPlus size={48} />
+                  <p>CREATE NEW PROJECT</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
 
-      {showModal && (
-        <NewProjectModal
-          onClose={() => setShowModal(false)}
-          onProjectCreated={handleProjectCreated}
-        />
-      )}
-    </div>
+        {showModal && (
+          <NewProjectModal
+            onClose={() => setShowModal(false)}
+            onProjectCreated={handleProjectCreated}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { FaFolderOpen, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaFolderOpen,  FaSignOutAlt } from 'react-icons/fa';
 import Logo from '/Logo.svg';
 import './Sidebar.css';
 
@@ -32,14 +32,7 @@ const Sidebar = () => {
           <span className="nav-label">Projects</span>
         </button>
 
-        <button
-          className="nav-item"
-          onClick={() => {/* Settings page */}}
-          title="Settings"
-        >
-          <FaCog className="nav-icon" />
-          <span className="nav-label">Settings</span>
-        </button>
+       
       </nav>
 
       <div className="sidebar-footer">

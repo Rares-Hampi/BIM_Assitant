@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import "./ClashReport.css";
+import React, { useState, useMemo } from 'react';
+import './ClashReport.css';
 
 interface SampleElement {
   id: string;
@@ -52,45 +52,37 @@ interface ClashReportProps {
   onClashClick?: (clash: Clash) => void;
 }
 
-type SortBy = "severity" | "penetration" | "id";
+type SortBy = 'severity' | 'penetration' | 'id';
 
 const ClashReport: React.FC<ClashReportProps> = ({ report, onClashClick }) => {
-  // ALL HOOKS AT TOP
-  const [selectedSeverity, setSelectedSeverity] = useState<string>("all");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<SortBy>("severity");
+  // ALL HOOKS MUST BE AT TOP BEFORE ANY EARLY RETURNS
+  const [selectedSeverity, setSelectedSeverity] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<SortBy>('severity');
   const [expandedClash, setExpandedClash] = useState<number | null>(null);
   const [copiedId, setCopiedId] = useState<number | null>(null);
 
-  // Memoized clashes and categories
-  const clashes = useMemo(
-    () => report?.clashesData || [],
-    [report?.clashesData],
-  );
+  // Get clashes and categories with memoization
+  const clashes = useMemo(() => report?.clashesData || [], [report?.clashesData]);
 
   const categories = useMemo(() => {
     return Array.from(
-      new Set(
-        clashes.flatMap((c) =>
-          [
-            c.object1?.category || c.object1_category,
-            c.object2?.category || c.object2_category,
-          ].filter(Boolean),
-        ),
-      ),
+      new Set(clashes.flatMap(c => [
+        c.object1?.category || c.object1_category,
+        c.object2?.category || c.object2_category
+      ].filter(Boolean)))
     ).sort() as string[];
   }, [clashes]);
 
   // Filter clashes
   const filteredClashes = useMemo(() => {
-    console.log(clashes);
-    return clashes.filter((clash) => {
-      if (selectedSeverity !== "all" && clash.severity !== selectedSeverity) {
+    return clashes.filter(clash => {
+      if (selectedSeverity !== 'all' && clash.severity !== selectedSeverity) {
         return false;
       }
-      if (selectedCategory !== "all") {
-        const cat1 = clash.object1?.category || clash.object1_category || "";
-        const cat2 = clash.object2?.category || clash.object2_category || "";
+      if (selectedCategory !== 'all') {
+        const cat1 = clash.object1?.category || clash.object1_category || '';
+        const cat2 = clash.object2?.category || clash.object2_category || '';
         if (cat1 !== selectedCategory && cat2 !== selectedCategory) {
           return false;
         }
@@ -102,46 +94,46 @@ const ClashReport: React.FC<ClashReportProps> = ({ report, onClashClick }) => {
   // Sort clashes
   const sortedClashes = useMemo(() => {
     const sorted = [...filteredClashes];
-
+    
     switch (sortBy) {
-      case "severity": {
-        const severityOrder = { critical: 0, major: 1, minor: 2 };
-        sorted.sort(
-          (a, b) =>
-            (severityOrder[a.severity as keyof typeof severityOrder] ?? 3) -
-            (severityOrder[b.severity as keyof typeof severityOrder] ?? 3),
+      case 'severity': {
+        const severityOrder: Record<string, number> = { critical: 0, major: 1, minor: 2 };
+        sorted.sort((a, b) => 
+          (severityOrder[a.severity] ?? 3) - (severityOrder[b.severity] ?? 3)
         );
         break;
       }
-      case "penetration":
+      case 'penetration':
         sorted.sort((a, b) => b.penetration_depth - a.penetration_depth);
         break;
-      case "id":
+      case 'id':
         sorted.sort((a, b) => a.clash_id - b.clash_id);
         break;
+      default:
+        break;
     }
-
+    
     return sorted;
   }, [filteredClashes, sortBy]);
 
   // Helper: Get color for severity badge
   const getSeverityColor = (severity: string): string => {
     const colors: Record<string, string> = {
-      critical: "#ef4444",
-      major: "#f59e0b",
-      minor: "#3b82f6",
+      critical: '#ef4444',
+      major: '#f59e0b',
+      minor: '#3b82f6',
     };
-    return colors[severity] || "#6b7280";
+    return colors[severity] || '#6b7280';
   };
 
   // Helper: Get background color for severity
   const getSeverityBgColor = (severity: string): string => {
     const bgColors: Record<string, string> = {
-      critical: "#fef2f2",
-      major: "#fffbf0",
-      minor: "#f0f9ff",
+      critical: '#fef2f2',
+      major: '#fffbf0',
+      minor: '#f0f9ff',
     };
-    return bgColors[severity] || "#f3f4f6";
+    return bgColors[severity] || '#f3f4f6';
   };
 
   // Helper: Copy to clipboard with feedback
@@ -152,49 +144,43 @@ const ClashReport: React.FC<ClashReportProps> = ({ report, onClashClick }) => {
   };
 
   // Helper: Export clashes to CSV
-  const exportToCSV = () => {
-    let csv =
-      "Clash ID,Severity,Penetration (cm),Clearance (cm),Object 1,Object 2,Position X,Position Y,Position Z\n";
-
-    sortedClashes.forEach((clash) => {
-      const obj1 = clash.object1?.category || clash.object1_category || "N/A";
-      const obj2 = clash.object2?.category || clash.object2_category || "N/A";
-      const pos = clash.position || {
-        x: clash.position_x ?? 0,
-        y: clash.position_y ?? 0,
-        z: clash.position_z ?? 0,
+  const exportToCSV = (clashesToExport: Clash[]) => {
+    let csv = 'Clash ID,Severity,Penetration (cm),Clearance (cm),Object 1,Object 2,Position X,Position Y,Position Z\n';
+    
+    clashesToExport.forEach(clash => {
+      const obj1 = clash.object1?.category || clash.object1_category || 'N/A';
+      const obj2 = clash.object2?.category || clash.object2_category || 'N/A';
+      const pos = clash.position || { 
+        x: clash.position_x ?? 0, 
+        y: clash.position_y ?? 0, 
+        z: clash.position_z ?? 0 
       };
-
+      
       csv += `${clash.clash_id},${clash.severity},${(clash.penetration_depth * 100).toFixed(2)},${(clash.clearance_required * 100).toFixed(2)},${obj1},${obj2},${pos.x.toFixed(2)},${pos.y.toFixed(2)},${pos.z.toFixed(2)}\n`;
     });
-
-    const element = document.createElement("a");
-    element.setAttribute(
-      "href",
-      "data:text/csv;charset=utf-8," + encodeURIComponent(csv),
-    );
-    element.setAttribute("download", `clash-report-${report?.id}.csv`);
-    element.style.display = "none";
+    
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv));
+    element.setAttribute('download', `clash-report-${report?.id || 'export'}.csv`);
+    element.style.display = 'none';
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
   };
 
-  // EARLY RETURNS NOW
+  // NOW WE CAN HAVE EARLY RETURNS
   if (!report) {
     return (
       <div className="clash-report">
         <div className="no-report">
           <p>No clash detection results available.</p>
-          <p className="hint">
-            Run clash detection to analyze conflicts between building elements.
-          </p>
+          <p className="hint">Run clash detection to analyze conflicts between building elements.</p>
         </div>
       </div>
     );
   }
 
-  if (report.status === "processing") {
+  if (report.status === 'processing') {
     return (
       <div className="clash-report">
         <div className="processing-state">
@@ -205,7 +191,7 @@ const ClashReport: React.FC<ClashReportProps> = ({ report, onClashClick }) => {
     );
   }
 
-  if (report.status === "failed") {
+  if (report.status === 'failed') {
     return (
       <div className="clash-report">
         <div className="error-state">
@@ -242,15 +228,13 @@ const ClashReport: React.FC<ClashReportProps> = ({ report, onClashClick }) => {
       <div className="clash-filters">
         <div className="filter-group">
           <label>Severity:</label>
-          <select
-            value={selectedSeverity}
+          <select 
+            value={selectedSeverity} 
             onChange={(e) => setSelectedSeverity(e.target.value)}
             className="filter-select"
           >
             <option value="all">All ({clashes.length})</option>
-            <option value="critical">
-              Critical ({report.criticalClashes})
-            </option>
+            <option value="critical">Critical ({report.criticalClashes})</option>
             <option value="major">Major ({report.majorClashes})</option>
             <option value="minor">Minor ({report.minorClashes})</option>
           </select>
@@ -258,25 +242,35 @@ const ClashReport: React.FC<ClashReportProps> = ({ report, onClashClick }) => {
 
         <div className="filter-group">
           <label>Category:</label>
-          <select
-            value={selectedCategory}
+          <select 
+            value={selectedCategory} 
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="filter-select"
           >
             <option value="all">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
         </div>
       </div>
 
       <div className="clash-toolbar">
-        <button
-          className="export-btn"
-          onClick={() => exportToCSV()}
+        <div className="toolbar-group">
+          <label>Sort:</label>
+          <select 
+            value={sortBy} 
+            onChange={(e) => setSortBy(e.target.value as SortBy)}
+            className="toolbar-select"
+          >
+            <option value="severity">Severity</option>
+            <option value="penetration">Penetration</option>
+            <option value="id">ID</option>
+          </select>
+        </div>
+        <button 
+          className="export-btn" 
+          onClick={() => exportToCSV(sortedClashes)}
           title="Export to CSV"
         >
           ↓ CSV
@@ -290,47 +284,37 @@ const ClashReport: React.FC<ClashReportProps> = ({ report, onClashClick }) => {
           </div>
         ) : (
           sortedClashes.map((clash) => (
-            <div
-              key={clash.clash_id}
-              className={`clash-item ${expandedClash === clash.clash_id ? "expanded" : ""}`}
+            <div 
+              key={clash.clash_id} 
+              className={`clash-item ${expandedClash === clash.clash_id ? 'expanded' : ''}`}
               style={{ backgroundColor: getSeverityBgColor(clash.severity) }}
             >
-              <div
+              <div 
                 className="clash-item-header"
                 onClick={() => {
-                  setExpandedClash(
-                    expandedClash === clash.clash_id ? null : clash.clash_id,
-                  );
+                  setExpandedClash(expandedClash === clash.clash_id ? null : clash.clash_id);
                   onClashClick?.(clash);
                 }}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: 'pointer' }}
               >
                 <div className="clash-item-title">
-                  <span
+                  <span 
                     className="severity-badge"
-                    style={{
-                      backgroundColor: getSeverityColor(clash.severity),
-                    }}
+                    style={{ backgroundColor: getSeverityColor(clash.severity) }}
                   >
                     {clash.severity.toUpperCase()}
                   </span>
                   <span className="clash-id">#{clash.clash_id}</span>
                   <span className="clash-brief">
-                    {clash.object1?.category || clash.object1_category || "N/A"}{" "}
-                    vs{" "}
-                    {clash.object2?.category || clash.object2_category || "N/A"}
+                    {(clash.object1?.category || clash.object1_category || 'N/A')} vs {(clash.object2?.category || clash.object2_category || 'N/A')}
                   </span>
                 </div>
                 <div className="clash-item-meta">
-                  <span className="meta-value">
-                    {(clash.penetration_depth * 100).toFixed(1)}cm
-                  </span>
-                  <span className="expand-icon">
-                    {expandedClash === clash.clash_id ? "▼" : "▶"}
-                  </span>
+                  <span className="meta-value">{(clash.penetration_depth * 100).toFixed(1)}cm</span>
+                  <span className="expand-icon">{expandedClash === clash.clash_id ? '▼' : '▶'}</span>
                 </div>
               </div>
-
+              
               {expandedClash === clash.clash_id && (
                 <div className="clash-item-body">
                   <div className="clash-objects">
@@ -341,12 +325,8 @@ const ClashReport: React.FC<ClashReportProps> = ({ report, onClashClick }) => {
                       </span>
                       {clash.object1?.sample_element && (
                         <div className="element-details">
-                          <div className="element-name">
-                            {clash.object1.sample_element.name}
-                          </div>
-                          <div className="element-type">
-                            {clash.object1.sample_element.type}
-                          </div>
+                          <div className="element-name">{clash.object1.sample_element.name}</div>
+                          <div className="element-type">{clash.object1.sample_element.type}</div>
                         </div>
                       )}
                     </div>
@@ -358,17 +338,13 @@ const ClashReport: React.FC<ClashReportProps> = ({ report, onClashClick }) => {
                       </span>
                       {clash.object2?.sample_element && (
                         <div className="element-details">
-                          <div className="element-name">
-                            {clash.object2.sample_element.name}
-                          </div>
-                          <div className="element-type">
-                            {clash.object2.sample_element.type}
-                          </div>
+                          <div className="element-name">{clash.object2.sample_element.name}</div>
+                          <div className="element-type">{clash.object2.sample_element.type}</div>
                         </div>
                       )}
                     </div>
                   </div>
-
+                  
                   <div className="clash-details">
                     <div className="detail-item">
                       <span className="detail-label">Penetration:</span>
@@ -384,34 +360,26 @@ const ClashReport: React.FC<ClashReportProps> = ({ report, onClashClick }) => {
                     </div>
                     <div className="detail-item">
                       <span className="detail-label">Position:</span>
-                      <button
+                      <button 
                         className="copy-btn"
                         onClick={(e) => {
                           e.stopPropagation();
-                          const pos = clash.position || {
-                            x: clash.position_x ?? 0,
-                            y: clash.position_y ?? 0,
-                            z: clash.position_z ?? 0,
+                          const pos = clash.position || { 
+                            x: clash.position_x ?? 0, 
+                            y: clash.position_y ?? 0, 
+                            z: clash.position_z ?? 0 
                           };
-                          copyToClipboard(
-                            `${pos.x.toFixed(2)}, ${pos.y.toFixed(2)}, ${pos.z.toFixed(2)}`,
-                            clash.clash_id,
-                          );
+                          copyToClipboard(`${pos.x.toFixed(2)}, ${pos.y.toFixed(2)}, ${pos.z.toFixed(2)}`, clash.clash_id);
                         }}
-                        title={
-                          copiedId === clash.clash_id
-                            ? "Copied!"
-                            : "Copy coordinates"
-                        }
+                        title={copiedId === clash.clash_id ? "Copied!" : "Copy coordinates"}
                       >
                         <span className="detail-value">
-                          {clash.position
-                            ? `(${clash.position.x.toFixed(2)}, ${clash.position.y.toFixed(2)}, ${clash.position.z.toFixed(2)})`
-                            : `(${clash.position_x?.toFixed(2)}, ${clash.position_y?.toFixed(2)}, ${clash.position_z?.toFixed(2)})`}
+                          {clash.position ? 
+                            `(${clash.position.x.toFixed(2)}, ${clash.position.y.toFixed(2)}, ${clash.position.z.toFixed(2)})` :
+                            `(${clash.position_x?.toFixed(2)}, ${clash.position_y?.toFixed(2)}, ${clash.position_z?.toFixed(2)})`
+                          }
                         </span>
-                        <span className="copy-icon">
-                          {copiedId === clash.clash_id ? "✓" : "📋"}
-                        </span>
+                        <span className="copy-icon">{copiedId === clash.clash_id ? '✓' : '📋'}</span>
                       </button>
                     </div>
                   </div>

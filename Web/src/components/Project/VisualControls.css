@@ -1,13 +1,17 @@
 .visual-controls {
-    position: fixed;
-    left: 260px;
-    top: 120px;
     background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    min-width: 220px;
-    z-index: 50;
+    border-radius: var(--radius-lg, 12px);
+    padding: var(--spacing-md, 20px);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    min-height: 300px;
+    max-width: 280px;
+}
+
+@media (max-width: 768px) {
+    .visual-controls {
+        max-width: 100%;
+    }
 }
 
 .controls-title {
@@ -108,11 +112,11 @@
     border-radius: 50%;
 }
 
-input:checked + .toggle-slider {
+input:checked+.toggle-slider {
     background-color: #3b82f6;
 }
 
-input:checked + .toggle-slider:before {
+input:checked+.toggle-slider:before {
     transform: translateX(20px);
 }
 

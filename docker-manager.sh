@@ -101,6 +101,9 @@ start_conversion_worker() {
 
 start_clash_worker() {
     print_info "Starting clash detection worker only..."
+    # Start dependencies first, then the worker
+    $DOCKER_COMPOSE up -d postgres rabbitmq minio
+    sleep 5  # Give services time to start
     $DOCKER_COMPOSE --profile workers up -d clash-worker
     print_success "Clash detection worker started successfully"
     show_status

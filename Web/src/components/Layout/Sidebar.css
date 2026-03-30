@@ -1,6 +1,6 @@
 .sidebar {
     width: 10rem;
-    background: #2c3e50;
+    background: var(--navy-deep, #1B2631);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -22,8 +22,8 @@
 }
 
 .logo img {
-    width: 140px;
-    height: 140px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .nav-item.active {
-    background: #667eea;
+    background: var(--electric-blue, #3498DB);
     color: white;
 }
 
@@ -70,12 +70,12 @@
     left: -15px;
     width: 4px;
     height: 100%;
-    background: #64b5f6;
+    background: var(--electric-blue-light, #5DADE2);
     border-radius: 0 4px 4px 0;
 }
 
 .nav-icon {
-    font-size: 5.5rem;
+    font-size: 1.75rem;
 }
 
 .nav-label {

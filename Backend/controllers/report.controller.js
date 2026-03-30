@@ -117,6 +117,7 @@ const getProjectReports = async (req, res, next) => {
         criticalClashes: true,
         majorClashes: true,
         minorClashes: true,
+        clashesData: true,
         createdAt: true,
         updatedAt: true
       }

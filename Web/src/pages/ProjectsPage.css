@@ -45,8 +45,26 @@
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: var(--spacing-lg, 2rem);
   margin-bottom: 2rem;
+}
+
+@media (max-width: 1440px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .project-card {
@@ -75,36 +93,37 @@
 
 .status-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: var(--spacing-md, 12px);
+  left: var(--spacing-md, 12px);
   background: rgba(255, 255, 255, 0.95);
   color: #2c3e50;
   padding: 0.35rem 0.85rem;
-  border-radius: 4px;
+  border-radius: var(--radius-sm, 4px);
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
+  z-index: 5;
 }
 
 .delete-project-btn {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: var(--spacing-md, 12px);
+  right: var(--spacing-md, 12px);
   width: 36px;
   height: 36px;
   border: none;
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 6px;
+  border-radius: var(--radius-md, 6px);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  color: #e74c3c;
+  transition: all var(--transition-base, 0.3s ease);
+  color: var(--color-danger, #e74c3c);
   z-index: 10;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
 }
 
 .delete-project-btn:hover {
@@ -251,20 +270,20 @@
   .projects-content {
     padding: 1.5rem;
   }
-  
+
   .projects-header {
     flex-direction: column;
     gap: 1.5rem;
   }
-  
+
   .projects-header h1 {
     font-size: 2rem;
   }
-  
+
   .projects-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .btn {
     width: 100%;
     justify-content: center;

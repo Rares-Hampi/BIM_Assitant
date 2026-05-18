@@ -1,7 +1,11 @@
-const bcrypt = require('bcrypt');
-const { getPrismaClient } = require('../utils/database');
-const { generateToken, generateRefreshToken, verifyRefreshToken } = require('../middleware/auth.middleware');
-const { AppError } = require('../middleware/error.middleware');
+const bcrypt = require("bcrypt");
+const { getPrismaClient } = require("../utils/database");
+const {
+  generateToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+} = require("../middleware/auth.middleware");
+const { AppError } = require("../middleware/error.middleware");
 
 const prisma = getPrismaClient();
 
@@ -12,26 +16,26 @@ const prisma = getPrismaClient();
 const register = async (req, res, next) => {
   try {
     const { email, password, fullName, company } = req.body;
-    
+
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
-      where: { email }
+      where: { email },
     });
-    
+
     if (existingUser) {
-      throw new AppError('Email already registered', 409);
+      throw new AppError("Email already registered", 409);
     }
-    
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
-    
+
     // Create user
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
         fullName,
-        company: company || null
+        company: company || null,
       },
       select: {
         id: true,
@@ -39,25 +43,23 @@ const register = async (req, res, next) => {
         fullName: true,
         company: true,
         createdAt: true,
-        updatedAt: true
-        // Do NOT return password
-      }
+        updatedAt: true,
+      },
     });
-    
+
     // Generate tokens
     const accessToken = generateToken(user.id);
     const refreshToken = generateRefreshToken(user.id);
-    
+
     res.status(201).json({
       success: true,
-      message: 'User registered successfully',
+      message: "User registered successfully",
       data: {
         user,
         accessToken,
-        refreshToken
-      }
+        refreshToken,
+      },
     });
-    
   } catch (error) {
     next(error);
   }
@@ -70,40 +72,39 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    
+
     // Find user with password
     const user = await prisma.user.findUnique({
-      where: { email }
+      where: { email },
     });
-    
+
     if (!user) {
-      throw new AppError('Invalid email or password', 401);
+      throw new AppError("Invalid email or password", 401);
     }
-    
+
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    
+
     if (!isPasswordValid) {
-      throw new AppError('Invalid email or password', 401);
+      throw new AppError("Invalid email or password", 401);
     }
-    
+
     // Generate tokens
     const accessToken = generateToken(user.id);
     const refreshToken = generateRefreshToken(user.id);
-    
+
     // Remove password from response
     const { password: _, ...userWithoutPassword } = user;
-    
+
     res.status(200).json({
       success: true,
-      message: 'Login successful',
+      message: "Login successful",
       data: {
         user: userWithoutPassword,
         accessToken,
-        refreshToken
-      }
+        refreshToken,
+      },
     });
-    
   } catch (error) {
     next(error);
   }
@@ -117,12 +118,11 @@ const logout = async (req, res, next) => {
   try {
     // In stateless JWT, logout is handled client-side by removing tokens
     // Optionally: implement token blacklist with Redis
-    
+
     res.status(200).json({
       success: true,
-      message: 'Logout successful'
+      message: "Logout successful",
     });
-    
   } catch (error) {
     next(error);
   }
@@ -135,14 +135,14 @@ const logout = async (req, res, next) => {
 const refreshAccessToken = async (req, res, next) => {
   try {
     const { refreshToken } = req.body;
-    
+
     if (!refreshToken) {
-      throw new AppError('Refresh token is required', 400);
+      throw new AppError("Refresh token is required", 400);
     }
-    
+
     // Verify refresh token
     const decoded = verifyRefreshToken(refreshToken);
-    
+
     // Check if user still exists
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
@@ -150,25 +150,24 @@ const refreshAccessToken = async (req, res, next) => {
         id: true,
         email: true,
         fullName: true,
-        company: true
-      }
+        company: true,
+      },
     });
-    
+
     if (!user) {
-      throw new AppError('User not found', 404);
+      throw new AppError("User not found", 404);
     }
-    
+
     // Generate new access token
     const newAccessToken = generateToken(user.id);
-    
+
     res.status(200).json({
       success: true,
-      message: 'Token refreshed successfully',
+      message: "Token refreshed successfully",
       data: {
-        accessToken: newAccessToken
-      }
+        accessToken: newAccessToken,
+      },
     });
-    
   } catch (error) {
     next(error);
   }
@@ -184,10 +183,9 @@ const getCurrentUser = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: {
-        user: req.user
-      }
+        user: req.user,
+      },
     });
-    
   } catch (error) {
     next(error);
   }
@@ -198,5 +196,5 @@ module.exports = {
   login,
   logout,
   refreshAccessToken,
-  getCurrentUser
+  getCurrentUser,
 };

@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const { getPrismaClient } = require('../utils/database');
+const jwt = require("jsonwebtoken");
+const { getPrismaClient } = require("../utils/database");
 
 const prisma = getPrismaClient();
 
@@ -12,23 +12,23 @@ const authenticate = async (req, res, next) => {
     // Get token from Authorization header OR query parameter (for SSE)
     const authHeader = req.headers.authorization;
     const queryToken = req.query.token;
-    
+
     let token;
-    
-    if (authHeader && authHeader.startsWith('Bearer ')) {
+
+    if (authHeader && authHeader.startsWith("Bearer ")) {
       token = authHeader.substring(7); // Remove 'Bearer ' prefix
     } else if (queryToken) {
       token = queryToken; // For SSE connections
     } else {
       return res.status(401).json({
         success: false,
-        message: 'No token provided. Please login first.'
+        message: "No token provided. Please login first.",
       });
     }
-    
+
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+
     // Get user from database
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
@@ -38,115 +38,60 @@ const authenticate = async (req, res, next) => {
         fullName: true,
         company: true,
         createdAt: true,
-        updatedAt: true
-        // Do NOT include password
-      }
+        updatedAt: true,
+      },
     });
-    
+
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'User not found. Token may be invalid.'
+        message: "User not found. Token may be invalid.",
       });
     }
-    
+
     // Attach user to request
     req.user = user;
     req.userId = user.id;
-    
+
     next();
-    
   } catch (error) {
-    if (error.name === 'JsonWebTokenError') {
+    if (error.name === "JsonWebTokenError") {
       return res.status(401).json({
         success: false,
-        message: 'Invalid token'
+        message: "Invalid token",
       });
     }
-    
-    if (error.name === 'TokenExpiredError') {
+
+    if (error.name === "TokenExpiredError") {
       return res.status(401).json({
         success: false,
-        message: 'Token expired. Please login again.'
+        message: "Token expired. Please login again.",
       });
     }
-    
-    console.error('Authentication error:', error);
+
+    console.error("Authentication error:", error);
     return res.status(500).json({
       success: false,
-      message: 'Authentication failed'
+      message: "Authentication failed",
     });
   }
 };
-
-/**
- * Optional authentication - doesn't fail if no token
- * Useful for endpoints that work differently for authenticated/unauthenticated users
- */
-const optionalAuth = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      // No token, continue without user
-      req.user = null;
-      req.userId = null;
-      return next();
-    }
-    
-    const token = authHeader.substring(7);
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
-      select: {
-        id: true,
-        email: true,
-        fullName: true,
-        company: true,
-        createdAt: true,
-        updatedAt: true
-      }
-    });
-    
-    if (user) {
-      req.user = user;
-      req.userId = user.id;
-    } else {
-      req.user = null;
-      req.userId = null;
-    }
-    
-    next();
-    
-  } catch (error) {
-    // If token is invalid, just continue without user
-    req.user = null;
-    req.userId = null;
-    next();
-  }
-};
-
 /**
  * Generate JWT token for user
  */
 const generateToken = (userId) => {
-  return jwt.sign(
-    { userId },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
-  );
+  return jwt.sign({ userId }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+  });
 };
 
 /**
  * Generate refresh token (longer expiration)
  */
 const generateRefreshToken = (userId) => {
-  return jwt.sign(
-    { userId, type: 'refresh' },
-    process.env.JWT_SECRET,
-    { expiresIn: '30d' }
-  );
+  return jwt.sign({ userId, type: "refresh" }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
 };
 
 /**
@@ -155,11 +100,11 @@ const generateRefreshToken = (userId) => {
 const verifyRefreshToken = (token) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    if (decoded.type !== 'refresh') {
-      throw new Error('Invalid token type');
+
+    if (decoded.type !== "refresh") {
+      throw new Error("Invalid token type");
     }
-    
+
     return decoded;
   } catch (error) {
     throw error;
@@ -168,8 +113,7 @@ const verifyRefreshToken = (token) => {
 
 module.exports = {
   authenticate,
-  optionalAuth,
   generateToken,
   generateRefreshToken,
-  verifyRefreshToken
+  verifyRefreshToken,
 };

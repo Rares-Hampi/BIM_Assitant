@@ -1,5 +1,5 @@
-const multer = require('multer');
-const path = require('path');
+const multer = require("multer");
+const path = require("path");
 
 // Configure multer for memory storage (we'll upload to MinIO directly)
 const storage = multer.memoryStorage();
@@ -8,13 +8,18 @@ const storage = multer.memoryStorage();
  * File filter to accept only IFC files
  */
 const fileFilter = (req, file, cb) => {
-  const allowedExtensions = ['.ifc', '.ifczip'];
+  const allowedExtensions = [".ifc", ".ifczip"];
   const ext = path.extname(file.originalname).toLowerCase();
-  
+
   if (allowedExtensions.includes(ext)) {
     cb(null, true);
   } else {
-    cb(new Error(`Invalid file type. Only ${allowedExtensions.join(', ')} files are allowed.`), false);
+    cb(
+      new Error(
+        `Invalid file type. Only ${allowedExtensions.join(", ")} files are allowed.`,
+      ),
+      false,
+    );
   }
 };
 
@@ -26,19 +31,22 @@ const upload = multer({
   fileFilter: fileFilter,
   limits: {
     fileSize: parseInt(process.env.MAX_FILE_SIZE) || 500 * 1024 * 1024, // Default 500MB
-    files: parseInt(process.env.MAX_FILES_PER_UPLOAD) || 10 // Default 10 files
-  }
+    files: parseInt(process.env.MAX_FILES_PER_UPLOAD) || 10, // Default 10 files
+  },
 });
 
 /**
  * Middleware for single file upload
  */
-const uploadSingle = upload.single('file');
+const uploadSingle = upload.single("file");
 
 /**
  * Middleware for multiple files upload
  */
-const uploadMultiple = upload.array('files', parseInt(process.env.MAX_FILES_PER_UPLOAD) || 10);
+const uploadMultiple = upload.array(
+  "files",
+  parseInt(process.env.MAX_FILES_PER_UPLOAD) || 10,
+);
 
 /**
  * Error handling middleware for multer errors
@@ -46,41 +54,41 @@ const uploadMultiple = upload.array('files', parseInt(process.env.MAX_FILES_PER_
 const handleUploadError = (err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     // Multer-specific errors
-    if (err.code === 'LIMIT_FILE_SIZE') {
+    if (err.code === "LIMIT_FILE_SIZE") {
       return res.status(400).json({
         success: false,
-        message: `File too large. Maximum size is ${(parseInt(process.env.MAX_FILE_SIZE) / 1024 / 1024).toFixed(0)}MB`
+        message: `File too large. Maximum size is ${(parseInt(process.env.MAX_FILE_SIZE) / 1024 / 1024).toFixed(0)}MB`,
       });
     }
-    
-    if (err.code === 'LIMIT_FILE_COUNT') {
+
+    if (err.code === "LIMIT_FILE_COUNT") {
       return res.status(400).json({
         success: false,
-        message: `Too many files. Maximum is ${process.env.MAX_FILES_PER_UPLOAD} files per upload`
+        message: `Too many files. Maximum is ${process.env.MAX_FILES_PER_UPLOAD} files per upload`,
       });
     }
-    
-    if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+
+    if (err.code === "LIMIT_UNEXPECTED_FILE") {
       return res.status(400).json({
         success: false,
-        message: 'Unexpected field name in upload'
+        message: "Unexpected field name in upload",
       });
     }
-    
+
     return res.status(400).json({
       success: false,
-      message: err.message
+      message: err.message,
     });
   }
-  
+
   if (err) {
     // Other errors (like file filter rejection)
     return res.status(400).json({
       success: false,
-      message: err.message
+      message: err.message,
     });
   }
-  
+
   next();
 };
 
@@ -92,11 +100,11 @@ const validateFiles = (req, res, next) => {
     if (!req.file) {
       return res.status(400).json({
         success: false,
-        message: 'No files uploaded. Please select at least one file.'
+        message: "No files uploaded. Please select at least one file.",
       });
     }
   }
-  
+
   next();
 };
 
@@ -105,31 +113,14 @@ const validateFiles = (req, res, next) => {
  */
 const validateProjectId = (req, res, next) => {
   const { projectId } = req.body;
-  
-  if (!projectId || typeof projectId !== 'string') {
+
+  if (!projectId || typeof projectId !== "string") {
     return res.status(400).json({
       success: false,
-      message: 'Valid project ID is required'
+      message: "Valid project ID is required",
     });
   }
-  
-  next();
-};
 
-/**
- * Add file metadata to request
- */
-const addFileMetadata = (req, res, next) => {
-  const files = req.files || (req.file ? [req.file] : []);
-  
-  req.fileMetadata = files.map(file => ({
-    originalName: file.originalname,
-    mimeType: file.mimetype,
-    size: file.size,
-    buffer: file.buffer,
-    encoding: file.encoding
-  }));
-  
   next();
 };
 
@@ -139,5 +130,4 @@ module.exports = {
   handleUploadError,
   validateFiles,
   validateProjectId,
-  addFileMetadata
 };

@@ -1469,16 +1469,16 @@ Input: projectId + fileIds[]
 │ POST /api/reports│
 │   /generate      │
 └────────┬─────────┘
-                 │
-                 ↓ Validate + Create Report
+         │
+         ↓ Validate + Create Report
 ┌──────────────────┐
 │ 2. Database      │
 │ INSERT INTO      │
 │ clash_reports    │
 │ Status: pending  │
 └────────┬─────────┘
-                 │
-                 ↓ Queue Job
+         │
+         ↓ Queue Job
 ┌──────────────────┐
 │ 3. RabbitMQ      │
 │ Queue: bim.clash │
@@ -1493,24 +1493,24 @@ PHASE 2: WORKER PROCESSING (Python)
 │ - Read BIM files │
 │ - Read paths     │
 └────────┬─────────┘
-                 │
-                 ↓ Download from MinIO
+         │
+         ↓ Download from MinIO
 ┌──────────────────┐
 │ 5. GLB + JSON    │
 │ bucket:          │
 │ bim-converted-   │
 │ models           │
 └────────┬─────────┘
-                 │
-                 ↓ Build BVH + Detect Clashes
+         │
+         ↓ Build BVH + Detect Clashes
 ┌────────────────────────────────────┐
 │ 6. Broad/Narrow Phase              │
 │ - AABB BVH queries                 │
 │ - SAT/GJK/Triangle-BVH collisions  │
 │ - Clearance rules per category     │
 └────────┬───────────────────────────┘
-                 │
-                 ↓ Classify + Persist
+         │
+         ↓ Classify + Persist
 ┌──────────────────┐
 │ 7. Save Results  │
 │ - totals         │
@@ -1528,8 +1528,8 @@ PHASE 3: PROGRESS + RESULTS
 └────────────────────────────────────┘
 
 ┌────────────────────────────────────┐
-│ 9. Fetch Report                     │
-│ GET /api/reports/:reportId          │
+│ 9. Fetch Report                    │
+│ GET /api/reports/:reportId         │
 └────────────────────────────────────┘
 ```
 
@@ -1619,7 +1619,7 @@ Time: T0 + 7min (All complete)
 ┌─────────────────────────────────────────────────┐
 │  Worker 1  │  Worker 2  │  Worker 3  │ Queue    │
 │  ─────────────────────────────────────────────  │
-│  Idle      │  Idle      │  Idle      │ Empty    │
+│  Idle      │  Idle      │          Idle      │ Empty    │
 │            │            │            │          │
 └─────────────────────────────────────────────────┘
 
@@ -1661,7 +1661,7 @@ minio://bim-converted-models/       # GLB models + JSON metadata
 minio://bim-thumbnails/             # Project thumbnails
 └── {project_id}/
     ├── thumbnail.png
-    └── {file_id}_preview.png
+    └── {file_id}_preview.p        ng
 
 minio://bim-reports/                # Exported clash reports (future)
 └── {project_id}/
@@ -1947,6 +1947,6 @@ OPTIMIZATION TECHNIQUES:
 
 ---
 
-**Last Updated:** February 18, 2026  
-**Version:** 1.0.0  
+**Last Updated:** May 18, 2026  
+**Version:** 1.1.0  
 **Author:** Rares-Hampi

@@ -1,6 +1,7 @@
 # BIM Assistant - System Design Document
 
-##  Table of Contents
+## Table of Contents
+
 1. [System Overview](#system-overview)
 2. [Requirements & Trade-offs](#requirements--trade-offs)
 3. [Architecture Diagrams](#architecture-diagrams)
@@ -13,9 +14,10 @@
 
 ---
 
-##  System Overview
+## System Overview
 
 BIM Assistant is a web-based Building Information Modeling platform that enables users to:
+
 - Upload and convert IFC files to web-friendly formats
 - Visualize 3D building models
 - Detect clashes between different building systems
@@ -23,6 +25,7 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 - Generate comprehensive reports
 
 ### Key Technologies
+
 - **Frontend**: React + TypeScript + Vite + Three.js
 - **Backend**: Node.js + Express
 - **Queue System**: RabbitMQ
@@ -33,11 +36,12 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 
 ---
 
-##  Requirements & Trade-offs
+## Requirements & Trade-offs
 
 ### Functional Requirements
 
 #### Core Requirements (Must Have - MVP)
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                    CORE FUNCTIONALITY                           │
@@ -48,7 +52,7 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
     Login/logout functionality
     Session management (JWT tokens)
     Password reset capability
-   
+
    Why Critical: Security and user data isolation
 
 2. PROJECT MANAGEMENT
@@ -56,7 +60,7 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
     List all user projects
     View project details
     Delete projects
-   
+
    Why Critical: Core organizational unit
 
 3. FILE UPLOAD & CONVERSION
@@ -65,7 +69,7 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
     Convert IFC to GLB format
     Separate models by category
     Store in object storage
-   
+
    Why Critical: Primary value proposition
 
 4. 3D VISUALIZATION
@@ -73,25 +77,23 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
     Toggle model categories on/off
     Basic camera controls (orbit, pan, zoom)
     Reset view functionality
-   
+
    Why Critical: User needs to see models
 
 5. PROGRESS TRACKING
     Real-time conversion progress
     Status updates (pending/processing/completed)
     Error handling and display
-   
+
    Why Critical: User feedback for long operations
 
 6. CLASH DETECTION
     Detect intersections between elements
     Generate clash report
     View clashes in table format
-   
+
    Why Critical: Core BIM functionality
 ```
-
-
 
 ### Critical Trade-offs Analysis
 
@@ -102,8 +104,8 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 
 1. REDIS vs RABBITMQ for Message Queue
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   DECISION: RabbitMQ 
-   
+   DECISION: RabbitMQ
+
    PROS:
     Dedicated message broker (built for queuing)
     Language agnostic (Node.js backend + Python workers)
@@ -113,31 +115,31 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
     Excellent monitoring (Management UI)
     Industry standard for polyglot architectures
     No need for Redis at all (simpler stack)
-   
+
    CONS:
     More memory (~150-200MB vs Redis 50MB)
     Slightly steeper learning curve
     More complex configuration initially
-   
+
    WHY THIS CHOICE:
    Architecture has Node.js backend + Python conversion worker.
    RabbitMQ excels at polyglot communication. Since we don't need
    Redis for caching (PostgreSQL is fast enough for <500 users),
    RabbitMQ eliminates Redis dependency entirely. One less service
    to maintain = simpler architecture.
-   
+
    Redis+BullMQ ALTERNATIVE:
    Would make sense if:
    • Need Redis for caching anyway
    • Pure Node.js architecture (no Python)
    • Want faster MVP setup
-   
+
    But without caching need, Redis becomes overhead.
 
 2. POSTGRESQL vs MONGODB
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   DECISION: PostgreSQL 
-   
+   DECISION: PostgreSQL
+
    PROS:
     ACID transactions (data integrity)
     Relational data (users, projects, files)
@@ -145,17 +147,17 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
     Mature ecosystem and tooling
     Strong consistency
     Advanced indexing (GIN, BRIN)
-   
+
    CONS:
     Vertical scaling limits
     Schema migrations required
     Overkill for simple key-value
-   
+
    WHY THIS CHOICE:
    BIM data has clear relationships (users → projects → files).
    Need transactions for consistency. JSONB gives flexibility
    for clash detection data without sacrificing relational benefits.
-   
+
    WHEN TO RECONSIDER:
    • Massive scale (billions of records)
    • Schemaless data dominates
@@ -164,24 +166,24 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 3. MINIO vs AWS S3
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    DECISION: MinIO (Development)
-   
+
    PROS (MinIO):
     Self-hosted (no cloud costs in dev)
     S3-compatible API (easy migration)
     Docker-friendly
     Full control over data
     Good for development/testing
-   
+
    CONS (MinIO):
     Operational overhead
     Limited HA without distributed mode
     Manual backup/disaster recovery
-   
+
    WHY THIS CHOICE:
    MinIO for dev/staging keeps costs down and provides S3-compatible
    API. Production can use AWS S3 for durability (99.999999999%)
    and managed service benefits with zero code changes.
-   
+
    WHEN TO USE S3:
    • Production deployment
    • Critical data durability
@@ -191,7 +193,7 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 4. REAL-TIME: WEBSOCKET vs SERVER-SENT EVENTS (SSE)
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     DECISION: Server-Sent Events (SSE)
-    
+
     PROS:
      Simple HTTP-based protocol
      No connection state to manage
@@ -200,18 +202,18 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
      Easier to scale (no sticky sessions)
      Lower memory overhead
      Native browser support
-    
+
     CONS:
      One-directional (server→client only)
      Text-based (no binary data)
      Limited to ~6 concurrent connections per browser
-    
+
     WHY THIS CHOICE:
-    Progress updates are one-directional (server→client). SSE's 
-    simplicity, better scalability, and reduced overhead make it ideal 
-    for MVP. No need for bidirectional communication yet. Can migrate 
+    Progress updates are one-directional (server→client). SSE's
+    simplicity, better scalability, and reduced overhead make it ideal
+    for MVP. No need for bidirectional communication yet. Can migrate
     to WebSocket later if collaborative features require it.
-    
+
     WHEN TO RECONSIDER:
     • Need real-time user collaboration (comments, live cursors)
     • Require client→server messaging (besides HTTP requests)
@@ -219,26 +221,26 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 
 5. SYNCHRONOUS vs ASYNCHRONOUS Processing
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   DECISION: Asynchronous (RabbitMQ) 
-   
+   DECISION: Asynchronous (RabbitMQ)
+
    PROS:
     Non-blocking API responses
     Parallel processing (3-5 workers)
     Retry failed jobs automatically
     Better user experience (no timeout)
     Scale workers independently
-   
+
    CONS:
     More complex architecture
     Eventual consistency
     Need progress tracking system
-   
+
    WHY THIS CHOICE:
    IFC conversion takes 2-5 minutes per file. Synchronous would:
    • Block HTTP connection (timeout after 30-60s)
    • No parallel processing
    • Poor user experience
-   
+
    Async allows:
    • Upload 5 files → return immediately
    • Process in parallel → 3x faster
@@ -247,20 +249,20 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 
 6. MONOLITH vs MICROSERVICES
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   DECISION: Monolith 
-   
+   DECISION: Monolith
+
    PROS:
     Simpler deployment (single Docker image)
     Easier debugging
     Lower latency (no network calls)
     Faster development (no service boundaries)
     Easier transactions
-   
+
    CONS:
     All-or-nothing deployment
     Harder to scale specific features
     Technology lock-in
-   
+
    WHY THIS CHOICE:
    MVP with small team (1-3 developers). Microservices add:
    • Network complexity
@@ -268,10 +270,10 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
    • Distributed tracing
    • API versioning
    • More DevOps overhead
-   
+
    Monolith gets MVP to market 2-3x faster. Can extract
    microservices later when specific bottlenecks emerge.
-   
+
    WHEN TO SPLIT:
    • Team grows > 10 developers
    • Clear service boundaries emerge
@@ -280,8 +282,8 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 
 7. STORING CONVERTED FILES: DATABASE vs OBJECT STORAGE
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   DECISION: Object Storage (MinIO/S3) 
-   
+   DECISION: Object Storage (MinIO/S3)
+
    PROS:
     Designed for large files
     Unlimited scalability
@@ -289,23 +291,23 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
     CDN integration
     Lower cost per GB
     Presigned URLs for secure access
-   
+
    CONS:
     External dependency
     Network latency
     More complex backup
-   
+
    WHY THIS CHOICE:
    PostgreSQL max row size: 1GB (but slow)
    Average GLB file: 10-50 MB per category
    Project with 5 files: ~500 MB total
-   
+
    Database would:
    • Bloat quickly (100 projects = 50 GB)
    • Slow queries
    • Expensive backups
    • No CDN integration
-   
+
    Object Storage:
    • Pay per GB used
    • Fast parallel downloads
@@ -314,27 +316,27 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 
 8. CACHING STRATEGY: SIMPLE vs COMPLEX
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   DECISION: Simple HTTP Caching (No Redis Cache) 
-   
+   DECISION: Simple HTTP Caching (No Redis Cache)
+
    LAYERS:
     Browser Cache (Static assets)
       Cache-Control: max-age=31536000 (1 year)
       GLB files, images, CSS, JS
-      
+
     HTTP ETag/Last-Modified Headers
       For dynamic API responses
       Client sends If-None-Match → 304 Not Modified
       Zero bandwidth if unchanged
-   
+
     CDN Cache (Optional for production)
       CloudFlare or similar
       Cache GLB models at edge
       Reduces origin load
-   
+
     PostgreSQL Query Cache
       Automatic for repeated queries
       No configuration needed
-   
+
    WHY SIMPLE CACHING:
     PostgreSQL is fast (<100ms for typical queries)
     <500 users don't need Redis cache layer
@@ -342,17 +344,17 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
     Less complexity = fewer bugs
     One less service to maintain (no Redis)
     Browser cache handles 90% of optimization
-   
+
    WHEN TO ADD REDIS CACHE:
    • Query times consistently >200ms
    • Database becomes bottleneck
    • >1000 concurrent users
    • Specific slow queries identified
-   
+
    TRADE-OFF:
    Simplicity vs Ultra-Performance
    For MVP, simple caching is 90% of benefit with 10% of complexity.
-   
+
    CACHE INVALIDATION:
    Simpler without Redis layer:
    • Browser cache: Long-lived (immutable URLs)
@@ -362,30 +364,30 @@ BIM Assistant is a web-based Building Information Modeling platform that enables
 
 9. JSON METADATA: PERMANENT vs TEMPORARY
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   DECISION: Permanent Storage 
-   
+   DECISION: Permanent Storage
+
    PROS:
     Required for clash detection
     Needed for ML classification
     Fast queries (no IFC re-parsing)
     Analytics and reporting
     Element property search
-   
+
    CONS:
     Potential data duplication
-   
-   
+
+
    BENEFIT:
    • Clash detection: 100x faster (no re-parsing)
    • ML training: Direct data access
    • Search: "Find all 200mm pipes" in milliseconds
    • Reports: Instant data retrieval
-   
+
    RE-PARSING IFC EVERY TIME:
    • 2-5 minutes per file
    • Heavy CPU usage
    • User waits for every clash report
-   
+
    Storing JSON: Tiny cost, massive benefit
 ```
 
@@ -404,7 +406,7 @@ TECHNICAL CONSTRAINTS:
    Max IFC File:        500 MB
    Why:                 Browser upload limits, conversion time
    Workaround:          Split large files or enterprise tier
-   
+
 2. Browser Limitations
    ───────────────────
    WebGL Max Vertices:  ~16 million
@@ -412,7 +414,7 @@ TECHNICAL CONSTRAINTS:
    Memory:              2-4 GB (mobile browsers)
    Why:                 Hardware constraints
    Workaround:          LOD (Level of Detail), progressive loading
-   
+
 3. Conversion Time
    ───────────────
    Per File:            2-5 minutes
@@ -476,10 +478,9 @@ Consequences: One-directional only, but that's all we need
 
 ```
 
-
 ---
 
-##  Architecture Diagrams
+## Architecture Diagrams
 
 ### High-Level System Architecture
 
@@ -562,10 +563,10 @@ USER UPLOADS FILES
    │  File Validator  │ Max 500MB/file, .ifc only
    └────┬─────────────┘
         │
-        ├─→ Upload to MinIO (raw-uploads/)
+limitări în editarea modelelor (este mai mult un viewer + issue manager)           ├─→ Save to local temp (/uploads/temp)
         │
-        ├─→ Create DB records (BIM_Files)
-        │   └─→ Status: 'pending'
+           ├─→ Create DB records (bim_files)
+           │   └─→ Status: 'pending', storage_path=tempPath
         │
         └─→ Publish to RabbitMQ Queue
             ├─→ Job 1: file1.ifc (Priority: High)
@@ -577,7 +578,7 @@ USER UPLOADS FILES
    │         RabbitMQ Queue (conversion)            │
    │                                                │
    │  ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐        │
-   │  │Job 1 │  │Job 2 │  │Job 3 │  │Job 4 │        │  
+   │  │Job 1 │  │Job 2 │  │Job 3 │  │Job 4 │        │
    │  └──┬───┘  └──┬───┘  └──┬───┘  └──────┘        │
    └─────┼─────────┼─────────┼──────────────────────┘
          │         │         │
@@ -634,7 +635,7 @@ USER UPLOADS FILES
 
 ---
 
-##  Frontend Design
+## Frontend Design
 
 ### Page Structure
 
@@ -743,7 +744,7 @@ RETURNING USER:
 
 ---
 
-##  Backend Design
+## Backend Design
 
 ### Service Architecture
 
@@ -756,8 +757,8 @@ Backend/
 │   ├── auth.routes.js         # /api/login, /api/register
 │   ├── project.routes.js      # /api/projects/*
 │   ├── upload.routes.js       # /api/upload
-│   ├── report.routes.js       # /api/generateReport
-│   ├── progress.routes.js     # /api/progress (SSE endpoint)
+│   ├── report.routes.js       # /api/reports/*
+│   ├── progress.routes.js     # /api/progress/* (SSE endpoints)
 │   └── health.routes.js       # /api/health
 │
 ├── controllers/
@@ -768,16 +769,17 @@ Backend/
 │   └── progress.controller.js  # SSE progress streaming
 │
 ├── services/
-│   ├── conversion.service.js   # IFC → GLB conversion
-│   ├── clash.service.js        # Clash detection logic
+│   ├── conversionService.js    # (placeholder - conversion runs in Python)
+│   ├── clashService.js         # (placeholder - detection runs in Python)
 │   ├── storage.service.js      # MinIO operations
-│   ├── notification.service.js # RabbitMQ pub/sub
+│   ├── notificationService.js  # RabbitMQ pub/sub
 │   └── queue.service.js        # RabbitMQ job management
 │
 ├── workers/
-│   ├── conversionWorker.js    # RabbitMQ worker (Node.js)
-│   ├── pythonWorker.js        # Bridge to Python workers
-│   └── cleanupWorker.js       # Cleanup temporary files
+│   ├── python/
+│   │   ├── convert.py          # IFC → GLB + JSON worker
+│   │   └── clash_detection.py  # Clash detection worker
+│   └── watcher/                # Optional file watcher
 │
 ├── prisma/
 │   ├── schema.prisma          # Prisma schema definition
@@ -850,13 +852,13 @@ Backend/
 ┌─────────────────────────┐
 │  4. CLASH SERVICE       │
 │  ─────────────────────  │
-│  • Read JSON metadata   │
-│  • Detect intersections │
-│  • Calculate distances  │
-│  • Classify severity    │
-│  • Generate report      │
+│  • API creates report   │
 │  • Queue via RabbitMQ   │
-│  • Store in DB + MinIO  │
+│  • Python worker loads  │
+│    GLB + JSON metadata  │
+│  • Broad/narrow phase   │
+│  • Classify severity    │
+│  • Store results in DB  │
 └────────┬────────────────┘
          │
          ↓ Notifies via
@@ -873,23 +875,20 @@ Backend/
 └─────────────────────────┘
 ```
 
-
 <div >
     <img src="./images/backend.png" alt="alt text" >
 </div>
 ---
 
-##  Database Schema
+## Database Schema
 
 <div>
     <img src="./images/database.png" alt="alt text" >
 </div>
 
-
-
 ---
 
-##  API Documentation
+## API Documentation
 
 ### Authentication
 
@@ -1025,41 +1024,35 @@ Response (200):
 ```
 POST /api/upload
 ─────────────────────────────────────────────────────────
-Headers: 
+Headers:
     Authorization: Bearer <token>
     Content-Type: multipart/form-data
 
 Request (FormData):
-    project_id: "uuid"
-    file_type: "Architecture"
+    projectId: "uuid"
     files[]: file1.ifc
     files[]: file2.ifc
     files[]: file3.ifc
 
-Response (202 Accepted):
+Response (201):
 {
     "success": true,
-    "message": "Files uploaded and queued for processing",
+    "message": "3 file(s) uploaded successfully",
     "data": {
+        "projectId": "uuid",
         "files": [
             {
                 "id": "uuid-1",
-                "filename": "arch_floor1.ifc",
+                "originalName": "arch_floor1.ifc",
                 "status": "pending",
-                "queue_position": 1
-            },
-            {
-                "id": "uuid-2",
-                "filename": "arch_floor2.ifc",
-                "status": "pending",
-                "queue_position": 2
+                "progress": 0,
+                "statusMessage": "Queued for conversion"
             }
-        ],
-        "estimated_time": "5-10 minutes"
+        ]
     }
 }
 
-GET /api/upload/progress/:fileId
+GET /api/upload/files/:fileId
 ─────────────────────────────────────────────────────────
 Headers: Authorization: Bearer <token>
 
@@ -1067,40 +1060,99 @@ Response (200):
 {
     "success": true,
     "data": {
-        "file_id": "uuid",
-        "status": "processing",
-        "progress": 65,
-        "current_step": "Converting walls",
-        "estimated_completion": "2026-02-18T08:45:00Z"
+        "file": {
+            "id": "uuid",
+            "status": "processing",
+            "progress": 65,
+            "statusMessage": "Converting walls",
+            "convertedPath": "[...]",
+            "metadataPath": "..."
+        }
     }
+}
+
+GET /api/upload/status/:jobId
+─────────────────────────────────────────────────────────
+Headers: Authorization: Bearer <token>
+
+Response (200):
+{
+    "success": true,
+    "data": {
+        "jobId": "uuid",
+        "status": "pending",
+        "message": "Job status tracking not implemented yet"
+    }
+}
+```
+
+Progress (SSE)
+
+```
+GET /api/progress/:fileId?token=<jwt>
+─────────────────────────────────────────────────────────
+Event data:
+{
+    "type": "progress",
+    "status": "processing",
+    "progress": 65,
+    "message": "Converting walls"
 }
 ```
 
 ### Clash Reports
 
 ```
-POST /api/generateReport
+POST /api/reports/generate
 ─────────────────────────────────────────────────────────
 Headers: Authorization: Bearer <token>
 
 Request:
 {
-    "project_id": "uuid",
-    "file_ids": ["uuid1", "uuid2", "uuid3"],  // Optional: specific files
+    "projectId": "uuid",
+    "fileIds": ["uuid1", "uuid2", "uuid3"],
     "settings": {
-        "tolerance": 0.01,                     // Clash tolerance in meters
-        "include_minor": false                 // Exclude minor clashes
+        "tolerance": 0.01,                    // Optional, stored on report
+        "checkTypes": ["pipes", "ducts"]     // Optional, stored on report
     }
 }
 
-Response (202 Accepted):
+Response (201):
 {
     "success": true,
     "message": "Clash detection started",
     "data": {
-        "report_id": "uuid",
-        "status": "processing",
-        "estimated_time": "2-5 minutes"
+        "report": {
+            "id": "uuid",
+            "status": "pending",
+            "projectId": "uuid",
+            "fileIds": ["uuid1", "uuid2"],
+            "createdAt": "2026-02-18T09:00:00Z"
+        }
+    }
+}
+
+GET /api/reports/project/:projectId
+─────────────────────────────────────────────────────────
+Headers: Authorization: Bearer <token>
+
+Response (200):
+{
+    "success": true,
+    "data": {
+        "reports": [
+            {
+                "id": "uuid",
+                "status": "completed",
+                "fileIds": ["uuid1", "uuid2"],
+                "totalClashes": 47,
+                "criticalClashes": 12,
+                "majorClashes": 25,
+                "minorClashes": 10,
+                "createdAt": "2026-02-18T09:00:00Z"
+            }
+        ],
+        "count": 1
     }
 }
 
@@ -1114,38 +1166,77 @@ Response (200):
     "data": {
         "report": {
             "id": "uuid",
-            "project_id": "uuid",
+            "projectId": "uuid",
             "status": "completed",
-            "total_clashes": 47,
-            "critical_clashes": 12,
-            "major_clashes": 25,
-            "minor_clashes": 10,
-            "clashes": [
-                {
-                    "id": "clash_001",
-                    "type": "hard_clash",
-                    "severity": "critical",
-                    "element1": {
-                        "id": "xyz123",
-                        "type": "IfcPipeSegment",
-                        "file_type": "MEP",
-                        "properties": {...}
-                    },
-                    "element2": {
-                        "id": "abc456",
-                        "type": "IfcDuctSegment",
-                        "file_type": "HVAC",
-                        "properties": {...}
-                    },
-                    "location": {"x": 10.5, "y": 20.3, "z": 5.2},
-                    "clearance": -0.05,  // Negative = intersection
-                    "volume": 0.025      // m³
-                }
-            ],
-            "report_pdf_url": "https://minio/.../report.pdf",
-            "created_at": "2026-02-18T09:00:00Z"
+            "progress": 100,
+            "totalClashes": 47,
+            "criticalClashes": 12,
+            "majorClashes": 25,
+            "minorClashes": 10,
+            "clashesData": [ ... ],
+            "settings": { ... },
+            "createdAt": "2026-02-18T09:00:00Z",
+            "updatedAt": "2026-02-18T09:02:00Z",
+            "completedAt": "2026-02-18T09:02:00Z"
         }
     }
+}
+
+GET /api/reports/:reportId/statistics
+─────────────────────────────────────────────────────────
+Headers: Authorization: Bearer <token>
+
+Response (200):
+{
+    "success": true,
+    "data": {
+        "statistics": {
+            "totalClashes": 47,
+            "criticalClashes": 12,
+            "majorClashes": 25,
+            "minorClashes": 10
+        },
+        "status": "completed",
+        "generatedAt": "2026-02-18T09:02:00Z"
+    }
+}
+
+GET /api/reports/:reportId/download?format=json
+─────────────────────────────────────────────────────────
+Headers: Authorization: Bearer <token>
+
+Response (200): JSON download of report data
+
+GET /api/reports/:reportId/clashes
+─────────────────────────────────────────────────────────
+Headers: Authorization: Bearer <token>
+
+Response (200):
+{
+    "success": true,
+    "data": {
+        "clashes": [],
+        "pagination": { "page": 1, "limit": 50, "total": 0 },
+        "message": "Clash pagination not implemented yet"
+    }
+}
+```
+
+Progress (SSE)
+
+```
+GET /api/progress/clash/:reportId?token=<jwt>
+─────────────────────────────────────────────────────────
+Event data:
+{
+    "type": "progress",
+    "status": "processing",
+    "progress": 40,
+    "message": "BVH trees built",
+    "totalClashes": 0,
+    "criticalClashes": 0,
+    "majorClashes": 0,
+    "minorClashes": 0
 }
 ```
 
@@ -1156,31 +1247,34 @@ GET /api/health
 ─────────────────────────────────────────────────────────
 Response (200):
 {
-    "success": true,
+    "status": "healthy",
     "timestamp": "2026-02-18T08:30:00Z",
+    "uptime": 123.45,
+    "environment": "development",
     "services": {
-        "api": "healthy",
-        "database": "healthy",
-        "redis": "healthy",
-        "minio": "healthy",
-        "workers": {
-            "conversion": 3,  // Active workers
-            "clash": 1
-        },
-        "queue": {
-            "pending": 5,
-            "active": 3,
-            "completed": 142,
-            "failed": 2
+        "database": {
+            "status": "healthy",
+            "message": "PostgreSQL connection successful"
         }
-    },
-    "version": "1.0.0"
+    }
+}
+
+GET /api/health/detailed
+─────────────────────────────────────────────────────────
+Response (200):
+{
+    "status": "healthy",
+    "services": {
+        "database": { "status": "healthy" },
+        "rabbitmq": { "status": "healthy" },
+        "minio": { "status": "healthy" }
+    }
 }
 ```
 
 ---
 
-##  File Processing Pipeline
+## File Processing Pipeline
 
 ### Conversion Pipeline (Detailed)
 
@@ -1209,10 +1303,10 @@ Input: building_model.ifc (150 MB)
          │
          ↓ Upload
 ┌──────────────────┐
-│ 3. MinIO Store   │
-│    raw-uploads/  │
-│    {project_id}/ │
-│    {file_id}.ifc │
+│ 3. Temp Storage  │
+│    /uploads/temp │
+│    {timestamp}-  │
+│    {filename}    │
 └────────┬─────────┘
          │
          ↓ Create Record
@@ -1282,46 +1376,36 @@ Worker picks up job from queue
 ┌──────────────────────────────────────┐
 │ 9. Store Converted Files             │
 │    ────────────────────────────────  │
-│    MinIO Structure:                  │
-│    converted-models/                 │
-│    └─ {project_id}/                  │
-│       └─ {file_id}/                  │
-│          ├─ walls.glb                │
-│          ├─ doors.glb                │
-│          ├─ windows.glb              │
-│          ├─ slabs.glb                │
-│          ├─ pipes.glb                │
-│          ├─ ducts.glb                │
-│          ├─ electrical.glb           │
-│          └─ others.glb               │ 
+│    MinIO bucket: bim-converted-models│
+│    └─ {project_id}/{file_id}/        │
+│       ├─ walls.glb                   │
+│       ├─ doors.glb                   │
+│       ├─ windows.glb                 │
+│       ├─ slabs.glb                   │
+│       ├─ pipes.glb                   │
+│       ├─ ducts.glb                   │
+│       ├─ electrical.glb              │
+│       └─ others.glb                  │
 │                                      │
-│    metadata/                         │
-│    └─ {project_id}/                  │
-│       └─ {file_id}/                  │
-│          ├─ walls.json               │
-│          ├─ doors.json               │
-│          └─ ...                      │
+│    Metadata JSON (same bucket/path): │
+│       ├─ walls.json                  │
+│       ├─ doors.json                  │
+│       └─ ...                         │
 │                                      │
 │    Each JSON contains:               │
 │    {                                 │
-│      "element_count": 120,           │
-│      "elements": [                   │
-│        {                             │
-│          "id": "2Fge34TgD3...",      │
-│          "type": "IfcWall",          │
-│          "properties": {             │
-│            "name": "External Wall",  │
-│            "material": "Concrete",   │
-│            "thickness": 0.3,         │
-│            "height": 3.2             │
-│          },                          │
-│          "geometry": {               │
-│            "bbox": {...},            │
-│            "centroid": {...}         │
-│          }                           │
+│      "2Fge34TgD3...": {              │
+│        "GlobalId": "2Fge34TgD3...",  │
+│        "Name": "External Wall",      │
+│        "IfcType": "IfcWall",         │
+│        "Category": "walls",          │
+│        "Material": "Concrete",       │
+│        "Properties": {               │
+│          "FireRating": "2hr"         │
 │        },                            │
-│        ...                           │
-│      ]                               │
+│        "Level": "Level 2"            │
+│      },                              │
+│      "...": { ... }                  │
 │    }                                 │
 └────────┬─────────────────────────────┘
          │
@@ -1369,6 +1453,122 @@ PHASE 3: POST-PROCESSING
 └──────────────────┘
 ```
 
+### Clash Detection Pipeline (Detailed)
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│             CLASH DETECTION PIPELINE                           │
+└────────────────────────────────────────────────────────────────┘
+
+PHASE 1: REQUEST & QUEUE
+────────────────────────
+Input: projectId + fileIds[]
+
+┌──────────────────┐
+│ 1. Client Request│
+│ POST /api/reports│
+│   /generate      │
+└────────┬─────────┘
+                 │
+                 ↓ Validate + Create Report
+┌──────────────────┐
+│ 2. Database      │
+│ INSERT INTO      │
+│ clash_reports    │
+│ Status: pending  │
+└────────┬─────────┘
+                 │
+                 ↓ Queue Job
+┌──────────────────┐
+│ 3. RabbitMQ      │
+│ Queue: bim.clash │
+│ -detection       │
+└──────────────────┘
+
+PHASE 2: WORKER PROCESSING (Python)
+───────────────────────────────────
+
+┌──────────────────┐
+│ 4. Load Inputs   │
+│ - Read BIM files │
+│ - Read paths     │
+└────────┬─────────┘
+                 │
+                 ↓ Download from MinIO
+┌──────────────────┐
+│ 5. GLB + JSON    │
+│ bucket:          │
+│ bim-converted-   │
+│ models           │
+└────────┬─────────┘
+                 │
+                 ↓ Build BVH + Detect Clashes
+┌────────────────────────────────────┐
+│ 6. Broad/Narrow Phase              │
+│ - AABB BVH queries                 │
+│ - SAT/GJK/Triangle-BVH collisions  │
+│ - Clearance rules per category     │
+└────────┬───────────────────────────┘
+                 │
+                 ↓ Classify + Persist
+┌──────────────────┐
+│ 7. Save Results  │
+│ - totals         │
+│ - clashes_data   │
+│ - status=completed│
+└──────────────────┘
+
+PHASE 3: PROGRESS + RESULTS
+───────────────────────────
+
+┌────────────────────────────────────┐
+│ 8. SSE Progress Stream             │
+│ GET /api/progress/clash/:reportId  │
+│ (token query param for SSE)        │
+└────────────────────────────────────┘
+
+┌────────────────────────────────────┐
+│ 9. Fetch Report                     │
+│ GET /api/reports/:reportId          │
+└────────────────────────────────────┘
+```
+
+Example clash object (stored in `clashes_data` JSONB):
+
+```json
+{
+  "clash_id": 12,
+  "severity": "critical",
+  "penetration_depth": 0.12,
+  "clearance_required": 0.1,
+  "position": { "x": 10.5, "y": 20.3, "z": 5.2 },
+  "object1": {
+    "file_id": "uuid",
+    "file_name": "arch.ifc",
+    "category": "pipes",
+    "element_count": 120,
+    "element_ids": ["2Fge34TgD3..."],
+    "sample_element": {
+      "id": "2Fge34TgD3...",
+      "name": "Pipe",
+      "type": "IfcPipeSegment"
+    }
+  },
+  "object2": {
+    "file_id": "uuid",
+    "file_name": "mep.ifc",
+    "category": "ducts",
+    "element_count": 85,
+    "element_ids": ["9Abc12XyZ..."],
+    "sample_element": {
+      "id": "9Abc12XyZ...",
+      "name": "Duct",
+      "type": "IfcDuctSegment"
+    }
+  }
+}
+```
+
 ### Parallel Processing Strategy
 
 ```
@@ -1392,7 +1592,7 @@ Time: T0 + 1s (Workers pick up jobs)
 ┌─────────────────────────────────────────────────┐
 │  Worker 1  │  Worker 2  │  Worker 3  │ Queue    │
 │  ─────────────────────────────────────────────  │
-│  Job 1     │  Job 2     │  Job 3     │ Job 4    │ 
+│  Job 1     │  Job 2     │  Job 3     │ Job 4    │
 │  [=====   ]│  [====    ]│  [======  ]│ Job 5    │
 │   50%      │   40%      │   60%      │ Waiting  │
 └─────────────────────────────────────────────────┘
@@ -1437,53 +1637,38 @@ OPTIMIZATION:
 
 ---
 
-
-##  Storage Strategy
+## Storage Strategy
 
 ### MinIO Bucket Organization
 
 ```
-minio://bim-files/
-├── converted-models/               # GLB models for web viewing
-│   └── {project_id}/
-│       └── {file_id}/
-│           ├── walls.glb           (Permanent)
-│           ├── doors.glb
-│           ├── windows.glb
-│           ├── slabs.glb
-│           ├── columns.glb
-│           ├── beams.glb
-│           ├── pipes.glb
-│           ├── ducts.glb
-│           ├── electrical.glb
-│           └── others.glb
-│
-├── metadata/                       # JSON files with element data
-│   └── {project_id}/
-│       └── {file_id}/
-│           ├── walls.json          (Permanent - for clash)
-│           ├── doors.json
-│           ├── windows.json
-│           ├── pipes.json
-│           ├── ducts.json
-│           ├── electrical.json
-│           └── building_info.json
-│
-├── reports/                        # Generated clash reports
-│   └── {project_id}/
-│       ├── {report_id}.pdf         (Permanent)
-│       ├── {report_id}.xlsx
-│       └── {report_id}.json
-│
-├── thumbnails/                     # Project thumbnails
-│   └── {project_id}/
-│       ├── thumbnail.png           (Permanent)
-│       └── {file_id}_preview.png
-│
-└── temporary/                      # Temp processing files
-    └── {job_id}/                   (Auto-delete after 24h)
-        ├── intermediate_file.obj
-        └── processing_log.txt
+minio://bim-converted-models/       # GLB models + JSON metadata
+└── {project_id}/{file_id}/
+    ├── walls.glb                   (Permanent)
+    ├── doors.glb
+    ├── windows.glb
+    ├── slabs.glb
+    ├── columns.glb
+    ├── beams.glb
+    ├── pipes.glb
+    ├── ducts.glb
+    ├── electrical.glb
+    ├── others.glb
+    ├── walls.json                  (Permanent - element metadata)
+    ├── doors.json
+    └── ...
+
+minio://bim-thumbnails/             # Project thumbnails
+└── {project_id}/
+    ├── thumbnail.png
+    └── {file_id}_preview.png
+
+minio://bim-reports/                # Exported clash reports (future)
+└── {project_id}/
+    └── {report_id}.json
+
+local://Backend/uploads/temp/       # Temporary IFC uploads
+└── {timestamp}-{filename}.ifc      (Deleted after conversion)
 ```
 
 ### Storage Retention Policy
@@ -1495,25 +1680,25 @@ minio://bim-files/
 
 PERMANENT STORAGE:
 ──────────────────
-   
- converted-models/      - GLB files for 3D viewing
+
+ bim-converted-models/  - GLB files for 3D viewing
    Reason: Expensive to regenerate
-   
- metadata/              - JSON element data
+
+ JSON metadata          - Element metadata per category
    Reason: Required for clash detection & ML
-   
- reports/               - Clash reports (Excel)
-   Reason: User deliverables
-   
- thumbnails/            - Project previews
+
+ bim-reports/           - Exported reports (optional)
+     Reason: User deliverables (future export)
+
+ bim-thumbnails/        - Project previews
    Reason: UI performance
 
 TEMPORARY STORAGE:
 ──────────────────
-  temporary/            - Processing intermediate files
-   Retention: 24 hours
-   Cleanup: Automated via worker
-   
+    uploads/temp/         - Local IFC uploads
+     Retention: Until conversion completes
+     Cleanup: Conversion worker deletes file
+
 
 OPTIMIZATION:
 ─────────────
@@ -1531,22 +1716,20 @@ OPTIMIZATION:
 
 1. CLASH DETECTION
    ────────────────
-   • Need element geometry (bounding boxes)
-   • Need element properties (material, size)
-   • Need element relationships
-   • Clash algorithm reads JSONs, not GLB
-   
+   • GLB provides geometry for collisions
+   • JSON provides element identity + properties
+   • Used to annotate clashes with element data
+
    Example:
    {
-       "id": "pipe_001",
-       "type": "IfcPipeSegment",
-       "bbox": {
-           "min": {"x": 10, "y": 20, "z": 5},
-           "max": {"x": 10.2, "y": 20.2, "z": 7}
-       },
-       "properties": {
-           "diameter": 0.2,
-           "material": "Steel"
+       "2Fge34TgD3...": {
+           "GlobalId": "2Fge34TgD3...",
+           "Name": "Pipe Segment",
+           "IfcType": "IfcPipeSegment",
+           "Category": "pipes",
+           "Material": "Steel",
+           "Properties": { "Diameter": "0.2" },
+           "Level": "Level 2"
        }
    }
 
@@ -1556,7 +1739,7 @@ OPTIMIZATION:
    • Anomaly detection
    • Cost estimation
    • Schedule prediction
-   
+
    ML models need:
    • Element types
    • Dimensions
@@ -1568,7 +1751,7 @@ OPTIMIZATION:
    • "Find all pipes > 300mm diameter"
    • "Show walls on Floor 2"
    • "List electrical on MEP system"
-   
+
    Fast queries without parsing IFC again
 
 4. ANALYTICS & REPORTING
@@ -1583,7 +1766,7 @@ OPTIMIZATION:
    • JSON is fast to parse
    • Don't need to reload heavy GLB
    • Can query specific elements
-   • Cache in Redis for speed
+    • Cache in memory or HTTP cache
 
 COST ANALYSIS:
 ──────────────
@@ -1591,7 +1774,6 @@ JSON Size: ~2-5% of original IFC
 Example: 150 MB IFC → 5 MB JSON
 
 ```
-
 
 ---
 
@@ -1617,38 +1799,38 @@ CACHING LAYERS:
 1. BROWSER CACHE (Static Assets)
    ───────────────────────────────
    Cache-Control: max-age=31536000, immutable
-   
+
    Files: GLB models, JS, CSS, images
    Why: Never change after creation
    Benefit: Zero network requests on revisit
-   
+
    Example:
    GET /output_web/walls.glb
    Response: Cache-Control: public, max-age=31536000, immutable
-   
+
 2. HTTP ETAG/LAST-MODIFIED (Dynamic Data)
    ────────────────────────────────────────
    For: API responses (projects, file lists)
-   
+
    Flow:
    Client: GET /api/projects
    Server: ETag: "abc123", Last-Modified: Mon, 18 Feb 2026 10:00:00 GMT
-   
+
    Next request:
    Client: If-None-Match: "abc123"
    Server: 304 Not Modified (0 bytes transferred!)
-   
+
    Benefit: Smart caching without cache invalidation complexity
-   
+
 3. CDN CACHE (Optional - Production only)
    ────────────────────────────────────────
    Provider: CloudFlare / AWS CloudFront
    Files: GLB models, static assets
    TTL: 7-30 days
-   
+
    Why: Edge delivery reduces latency 10x
    Cost: ~$10-20/month for 1TB bandwidth
-   
+
 4. POSTGRESQL BUILT-IN CACHE
    ──────────────────────────
    Automatic for repeated queries
@@ -1672,8 +1854,6 @@ WHEN TO ADD REDIS:
 • Specific bottlenecks identified via monitoring
 ```
 
-
-
 ### API Response Time Targets
 
 ```
@@ -1687,12 +1867,12 @@ GET /api/health             < 50ms      Database + service health check
 GET /api/projects           < 200ms     PostgreSQL query with indexes
 GET /api/projects/:id       < 300ms     PostgreSQL indexed lookup
 POST /api/projects          < 500ms     DB insert + MinIO bucket create
-POST /api/upload            < 2s        Streaming upload to MinIO
-GET /api/upload/progress    < 100ms     PostgreSQL status poll
-POST /api/generateReport    < 500ms     Queue job to RabbitMQ only
-GET /api/reports/:id        < 300ms     MinIO presigned URL retrieval
+POST /api/upload            < 2s        Streaming upload to local temp
+GET /api/progress/:fileId   < 100ms     SSE event stream (polling DB)
+POST /api/reports/generate  < 500ms     Queue job to RabbitMQ only
+GET /api/reports/:id        < 300ms     PostgreSQL report read
 GET /models/:id.glb         < 1s        MinIO presigned URL with HTTP cache
-GET /api/progress/:fileId   < 100ms     SSE event stream (real-time updates)
+GET /api/progress/clash/:id < 100ms     SSE event stream (polling DB)
 
 OPTIMIZATION TECHNIQUES:
 ────────────────────────
@@ -1706,7 +1886,6 @@ OPTIMIZATION TECHNIQUES:
 ```
 
 ---
-
 
 ### Data Privacy
 
@@ -1757,15 +1936,14 @@ OPTIMIZATION TECHNIQUES:
     Unusual activity detection
 ```
 
-
 ---
 
 ### External Resources
+
 - [IfcOpenShell Documentation](http://ifcopenshell.org)
 - [Three.js Documentation](https://threejs.org/docs)
 - [BullMQ Guide](https://docs.bullmq.io)
 - [MinIO Documentation](https://min.io/docs)
-
 
 ---
 

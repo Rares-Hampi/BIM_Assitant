@@ -1,0 +1,26 @@
+FROM python:3.10-slim
+
+WORKDIR /workspace
+
+# Install system dependencies for FCL (Flexible Collision Library)
+RUN apt-get update && apt-get install -y \
+    wget \
+    build-essential \
+    cmake \
+    libeigen3-dev \
+    libccd-dev \
+    libfcl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python libraries for clash detection
+RUN pip install --no-cache-dir \
+    pika \
+    psycopg2-binary \
+    minio \
+    trimesh \
+    numpy \
+    python-fcl
+
+COPY clash_detection.py /workspace/clash_detection.py
+
+ENTRYPOINT ["python", "-u", "/workspace/clash_detection.py"]

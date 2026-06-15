@@ -382,17 +382,18 @@ const ProjectViewPage = () => {
             <h1>{project?.name || "Project"}</h1>
           </div>
           <div className="project-header-actions">
-            <button
-              className="btn btn-primary btn-clash"
-              onClick={handleRunClashDetection}
-              disabled={
-                isRunningClash ||
-                !project?.files?.some((f) => f.status === "completed")
-              }
-            >
-              <FiPlay size={18} />
-              {isRunningClash ? "Running..." : "Run Clash Detection"}
-            </button>
+            {!clashReport && !isRunningClash && (
+              <button
+                className="btn btn-primary btn-clash"
+                onClick={handleRunClashDetection}
+                disabled={
+                  !project?.files?.some((f) => f.status === "completed")
+                }
+              >
+                <FiPlay size={18} />
+                Run Clash Detection
+              </button>
+            )}
           </div>
         </div>
 

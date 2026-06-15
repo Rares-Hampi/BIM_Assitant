@@ -334,7 +334,7 @@ const Canvas3D = forwardRef<Canvas3DHandle, Canvas3DProps>(
         if (clashId === selectedClashId) {
           // Highlight selected sphere
           material.emissiveIntensity = 0.8;
-          material.emissive.setHex(0xffff00); // Change to yellow for selection
+          material.emissive.setHex(0xff0000); // Keep selected sphere red
           mesh.scale.set(1.2, 1.2, 1.2); // Slightly enlarge
         } else {
           // Reset to normal

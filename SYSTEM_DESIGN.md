@@ -529,7 +529,6 @@ Consequences: One-directional only, but that's all we need
                   │              │
                   │ - Converter  │
                   │ - Clash Det. │
-                  │ - ML Proc.   │
                   └──────────────┘
                          │
                          ↓
@@ -544,7 +543,7 @@ Consequences: One-directional only, but that's all we need
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    FILE UPLOAD WORKFLOW                          │
+│                    FILE UPLOAD WORKFLOW                         │
 └─────────────────────────────────────────────────────────────────┘
 
 USER UPLOADS FILES
@@ -563,10 +562,11 @@ USER UPLOADS FILES
    │  File Validator  │ Max 500MB/file, .ifc only
    └────┬─────────────┘
         │
-limitări în editarea modelelor (este mai mult un viewer + issue manager)           ├─→ Save to local temp (/uploads/temp)
+        ├─→ Save to local temp (/uploads/temp)
         │
-           ├─→ Create DB records (bim_files)
-           │   └─→ Status: 'pending', storage_path=tempPath
+        ├─→ Create DB records (bim_files)
+        │
+        └─→ Status: 'pending', storage_path=tempPath
         │
         └─→ Publish to RabbitMQ Queue
             ├─→ Job 1: file1.ifc (Priority: High)
@@ -591,7 +591,7 @@ limitări în editarea modelelor (este mai mult un viewer + issue manager)      
    ┌────────────────────────────────────┐
    │    IFC Converter Container         │
    │    (Python + IfcOpenShell)         │
-   │                                     │
+   │                                    │
    │  1. Parse IFC → Extract geometry   │
    │  2. Separate by category:          │
    │     - Walls                        │
@@ -1619,7 +1619,7 @@ Time: T0 + 7min (All complete)
 ┌─────────────────────────────────────────────────┐
 │  Worker 1  │  Worker 2  │  Worker 3  │ Queue    │
 │  ─────────────────────────────────────────────  │
-│  Idle      │  Idle      │          Idle      │ Empty    │
+│  Idle      │  Idle      │  Idle      │ Empty    │
 │            │            │            │          │
 └─────────────────────────────────────────────────┘
 
